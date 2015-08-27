@@ -179,7 +179,7 @@ public class PacketConfigSync implements IMessageHandler<ConfigSyncMessage, IMes
 				e.printStackTrace();
 			}
 	
-			Mekanism.proxy.onConfigSync(true);
+			//Mekanism.proxy.onConfigSync(true);
 		}
 	}
 }
