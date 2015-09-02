@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.bioxx.tfc.Core.TFC_Climate;
+
 import mekanism.api.Coord4D;
 import mekanism.api.ISalinationSolar;
 import mekanism.api.MekanismConfig.general;
@@ -340,7 +342,8 @@ public class TileEntitySolarEvaporationController extends TileEntitySolarEvapora
 	{
 		if(!temperatureSet)
 		{
-			biomeTemp = worldObj.getBiomeGenForCoordsBody(xCoord, zCoord).getFloatTemperature(xCoord, yCoord, zCoord);
+			//biomeTemp = worldObj.getBiomeGenForCoordsBody(xCoord, zCoord).getFloatTemperature(xCoord, yCoord, zCoord);
+			biomeTemp = TFC_Climate.getBioTemperatureHeight(worldObj, xCoord, yCoord, zCoord) / 35; //Divide to roughly match vanilla biome temp returns.
 			temperatureSet = true;
 		}
 		
