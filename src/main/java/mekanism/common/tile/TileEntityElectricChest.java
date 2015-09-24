@@ -90,63 +90,18 @@ public class TileEntityElectricChest extends TileEntityElectricBlock
 		IInventory iinv = (TileEntityElectricChest)te;
 		
 		boolean isPowered = te.getEnergy() > 0;
-		for (int i = 0; !world.isRemote && i < iinv.getSizeInventory(); i++)
+		// right here we need to test if the chest is actively receiving power and override the normal decay process.
+		if (!isPowered)
 		{
-			ItemStack is = iinv.getStackInSlot(i);
-			if (is != null && iinv.getStackInSlot(i).stackSize <= 0)
-				iinv.setInventorySlotContents(i, null);
-
-			if (is != null)
-			{
-				if(is.stackSize == 0)
-				{
-					iinv.setInventorySlotContents(i, null);
-					continue;
-				}
-				// right here we need to test if the chest is actively receiving power and override the normal decay process.
-				if (!isPowered){
-					if (is.getItem() instanceof ItemTerra && ((ItemTerra) is.getItem()).onUpdate(is, world, x, y, z))
-						continue;
-					else if (is.getItem() instanceof ItemTerraBlock && ((ItemTerraBlock) is.getItem()).onUpdate(is, world, x, y, z))
-						continue;
-					is = TFC_Core.tickDecay(is, world, x, y, z, 2, 1f);
-					if(is != null)
-						TFC_ItemHeat.handleItemHeat(is);
-					iinv.setInventorySlotContents(i, is);	
-					
-				}
-				else {
-					is = TFC_Core.tickDecay(is, world, x, y, z, 1, .02f);
-					te.setEnergy(te.getEnergy() - 2); 
-					if(is != null)
-					{
-						if(is.hasTagCompound())
-						{
-							NBTTagCompound comp = is.getTagCompound();
-							if(is.hasTagCompound() && is.getTagCompound().hasKey("temperature"))
-							{
-								float temp = is.getTagCompound().getFloat("temperature");
-								if(temp > 0)
-								{
-									temp = temp - 10f ;
-									comp.setFloat("temperature",temp);
-									te.setEnergy(te.getEnergy() - 10); 
-								}
-								if(temp <= 0)
-									comp.removeTag("temperature");
-								if(comp.hasNoTags())
-									is.stackTagCompound = null;
-							}
-						}
-						iinv.setInventorySlotContents(i, is);
-					}
-					
-				
-
-				}
-			}
+			//An unpowered chest is a decay factory
+			TFC_Core.handleItemTicking(iinv, world, x, y, z, 2.0F);
 		}
-			
+		else 
+		{
+			//Mmm nice and cool.
+			TFC_Core.handleItemTicking(iinv, world, x, y, z, 0.2F);
+		}
+		
 	}
 	@Override
 	public void readFromNBT(NBTTagCompound nbtTags)
