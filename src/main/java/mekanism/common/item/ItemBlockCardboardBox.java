@@ -5,6 +5,7 @@ import java.util.List;
 import mekanism.api.EnumColor;
 import mekanism.api.MekanismAPI;
 import mekanism.common.MekanismBlocks;
+import mekanism.common.block.BlockCardboardBox;
 import mekanism.common.block.BlockCardboardBox.BlockData;
 import mekanism.common.tile.TileEntityCardboardBox;
 import mekanism.common.util.LangUtils;
@@ -29,12 +30,14 @@ public class ItemBlockCardboardBox extends ItemBlock
 	private static boolean isMonitoring;
 
 	public Block metaBlock;
+	public int totalUses;
 
 	public ItemBlockCardboardBox(Block block)
 	{
 		super(block);
 		setMaxStackSize(1);
 		metaBlock = block;
+
 
 		MinecraftForge.EVENT_BUS.register(this);
 	}
@@ -100,14 +103,14 @@ public class ItemBlockCardboardBox extends ItemBlock
 				}
 
 				world.setBlock(x, y, z, MekanismBlocks.CardboardBox, 1, 3);
-
 				isMonitoring = false;
 
 				TileEntityCardboardBox tileEntity = (TileEntityCardboardBox)world.getTileEntity(x, y, z);
-
+				
 				if(tileEntity != null)
 				{
-					tileEntity.storedData = data;
+ 					tileEntity.storedData = data;
+ 					tileEntity.totalUses = getBoxUses(stack);
 				}
 
 				return true;
@@ -134,10 +137,31 @@ public class ItemBlockCardboardBox extends ItemBlock
 			if(tileEntity != null)
 			{
 				tileEntity.storedData = getBlockData(stack);
+				tileEntity.totalUses = getBoxUses(stack);
+
 			}
 		}
 
 		return place;
+	}
+
+	private int getBoxUses(ItemStack itemstack) {
+		if(itemstack.stackTagCompound == null || !itemstack.stackTagCompound.hasKey("totalUses"))
+		{
+			return 5;
+		}
+	
+		return itemstack.stackTagCompound.getInteger("totalUses");
+		
+	}
+	public void setBoxUses(ItemStack itemstack, int uses)
+	{
+		if(itemstack.stackTagCompound == null)
+		{
+			itemstack.setTagCompound(new NBTTagCompound());
+		}
+
+		itemstack.stackTagCompound.setInteger("totaluses", uses);	
 	}
 
 	public void setBlockData(ItemStack itemstack, BlockData data)
@@ -148,7 +172,8 @@ public class ItemBlockCardboardBox extends ItemBlock
 		}
 
 		itemstack.stackTagCompound.setTag("blockData", data.write(new NBTTagCompound()));
-	}
+	}	
+
 
 	public BlockData getBlockData(ItemStack itemstack)
 	{

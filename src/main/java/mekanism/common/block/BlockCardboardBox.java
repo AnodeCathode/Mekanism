@@ -27,6 +27,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BlockCardboardBox extends BlockContainer
 {
 	private static boolean testingPlace = false;
+	public int totalUses;
 	
 	public IIcon[] icons = new IIcon[6];
 
@@ -36,6 +37,7 @@ public class BlockCardboardBox extends BlockContainer
 		setCreativeTab(Mekanism.tabMekanism);
 		setHardness(0.5F);
 		setResistance(1F);
+
 	}
 
 	@Override
@@ -76,6 +78,7 @@ public class BlockCardboardBox extends BlockContainer
 
 			if(tileEntity.storedData != null)
 			{
+				int uses = tileEntity.totalUses;
 				BlockData data = tileEntity.storedData;
 				
 				testingPlace = true;
@@ -111,10 +114,16 @@ public class BlockCardboardBox extends BlockContainer
 				double motionX = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
 				double motionY = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
 				double motionZ = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
-
-				EntityItem entityItem = new EntityItem(world, x + motionX, y + motionY, z + motionZ, itemStack);
-
-				world.spawnEntityInWorld(entityItem);
+				uses -= 1;
+				if (uses > 0) 
+				{
+					NBTTagCompound foo = new NBTTagCompound();
+					foo.setInteger("totalUses", uses);
+					itemStack.setTagCompound(foo);
+					EntityItem entityItem = new EntityItem(world, x + motionX, y + motionY, z + motionZ, itemStack);
+					world.spawnEntityInWorld(entityItem);
+	
+				}
 			}
 		}
 
@@ -154,13 +163,17 @@ public class BlockCardboardBox extends BlockContainer
 		TileEntityCardboardBox tileEntity = (TileEntityCardboardBox)world.getTileEntity(x, y, z);
 
 		ItemStack itemStack = new ItemStack(MekanismBlocks.CardboardBox, 1, world.getBlockMetadata(x, y, z));
-
+		
 		if(itemStack.getItemDamage() == 1)
 		{
 			if(tileEntity.storedData != null)
 			{
 				((ItemBlockCardboardBox)itemStack.getItem()).setBlockData(itemStack, tileEntity.storedData);
 			}
+		}
+		if(tileEntity.totalUses > 0)
+		{
+			((ItemBlockCardboardBox)itemStack.getItem()).setBoxUses(itemStack, tileEntity.totalUses);
 		}
 
 		return itemStack;
