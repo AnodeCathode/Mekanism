@@ -58,6 +58,10 @@ public class ItemBlockCardboardBox extends ItemBlock
 				list.add(LangUtils.localize("tooltip.tile") + ": " + getBlockData(itemstack).tileTag.getString("id"));
 			}
 		}
+		if(getBoxUses(itemstack) > 0)
+		{
+		 list.add(LangUtils.localize("tooltip.uses") + ": " + getBoxUses(itemstack));	
+		}
 	}
 
 	@Override
@@ -156,12 +160,8 @@ public class ItemBlockCardboardBox extends ItemBlock
 	}
 	public void setBoxUses(ItemStack itemstack, int uses)
 	{
-		if(itemstack.stackTagCompound == null)
-		{
-			itemstack.setTagCompound(new NBTTagCompound());
-		}
 
-		itemstack.stackTagCompound.setInteger("totaluses", uses);	
+		itemstack.stackTagCompound.setInteger("totalUses", uses);	
 	}
 
 	public void setBlockData(ItemStack itemstack, BlockData data)
