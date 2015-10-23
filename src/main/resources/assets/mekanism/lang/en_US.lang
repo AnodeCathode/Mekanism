@@ -663,6 +663,7 @@ tooltip.insufficientFuel=Insufficient Fuel
 tooltip.readyForReaction=Ready for Reaction
 tooltip.speed=Speed
 tooltip.and=and
+tooltip.uses=Uses
 
 tooltip.portableTank.bucketMode=Bucket Mode
 

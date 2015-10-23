@@ -8,6 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 public class TileEntityCardboardBox extends TileEntity
 {
 	public BlockData storedData;
+	public int totalUses;
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbtTags)
@@ -18,6 +19,11 @@ public class TileEntityCardboardBox extends TileEntity
 		{
 			storedData = BlockData.read(nbtTags.getCompoundTag("storedData"));
 		}
+		if(nbtTags.hasKey("totalUses"))
+		{
+			totalUses = nbtTags.getInteger("totalUses");
+		}
+			
 	}
 
 	@Override
@@ -28,6 +34,10 @@ public class TileEntityCardboardBox extends TileEntity
 		if(storedData != null)
 		{
 			nbtTags.setTag("storedData", storedData.write(new NBTTagCompound()));
+		}
+		if(totalUses > 0)
+		{
+			nbtTags.setInteger("totalUses", totalUses);
 		}
 	}
 
