@@ -160,6 +160,10 @@ public class ItemBlockCardboardBox extends ItemBlock
 	}
 	public void setBoxUses(ItemStack itemstack, int uses)
 	{
+		if(itemstack.stackTagCompound == null)
+		{
+			itemstack.setTagCompound(new NBTTagCompound());
+		}
 
 		itemstack.stackTagCompound.setInteger("totalUses", uses);	
 	}
