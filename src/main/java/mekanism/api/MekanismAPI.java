@@ -3,8 +3,6 @@ package mekanism.api;
 import java.util.HashSet;
 import java.util.Set;
 
-import plantmegapack.block.PMPBlockPlant;
-
 import com.bioxx.tfc.Blocks.Flora.BlockFlora;
 
 import mekanism.api.util.BlockInfo;
@@ -24,7 +22,8 @@ public class MekanismAPI
 	public static boolean isBlockCompatible(Item item, int meta)
 	{
 		Block target = Block.getBlockFromItem(item);
-		if(target instanceof BlockFlora || target.toString().startsWith("plantmegapack"))
+		String wtf = target.toString();
+		if(target.toString().startsWith("com.bioxx.tfc.Blocks.Flora") || target.toString().startsWith("plantmegapack"))
 		{
 			return false;
 		}
