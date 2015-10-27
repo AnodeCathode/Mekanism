@@ -6,7 +6,7 @@ import mekanism.api.IHeatTransfer;
 import mekanism.api.MekanismConfig.generators;
 import mekanism.common.base.ISustainedData;
 import mekanism.common.util.*;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.material.Material;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -211,7 +211,7 @@ public class TileEntityHeatGenerator extends TileEntityGenerator implements IFlu
 	
 	private boolean isLava(int x, int y, int z)
 	{
-		return worldObj.getBlock(x, y, z) == Blocks.lava;
+		return worldObj.getBlock(x, y, z).getMaterial() == Material.lava;
 	}
 
 	public int getFuel(ItemStack itemstack)
