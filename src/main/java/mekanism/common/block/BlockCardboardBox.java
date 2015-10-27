@@ -100,6 +100,7 @@ public class BlockCardboardBox extends BlockContainer
 
 				if(data.tileTag != null && world.getTileEntity(x, y, z) != null)
 				{
+					uses -= 1;
 					data.updateLocation(x, y, z);
 					world.getTileEntity(x, y, z).readFromNBT(data.tileTag);
 				}
@@ -114,7 +115,7 @@ public class BlockCardboardBox extends BlockContainer
 				double motionX = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
 				double motionY = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
 				double motionZ = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
-				uses -= 1;
+
 				if (uses > 0) 
 				{
 					NBTTagCompound foo = new NBTTagCompound();

@@ -3,8 +3,11 @@ package mekanism.api;
 import java.util.HashSet;
 import java.util.Set;
 
-import mekanism.api.util.BlockInfo;
+import plantmegapack.block.PMPBlockPlant;
 
+import com.bioxx.tfc.Blocks.Flora.BlockFlora;
+
+import mekanism.api.util.BlockInfo;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.oredict.OreDictionary;
@@ -20,15 +23,21 @@ public class MekanismAPI
 
 	public static boolean isBlockCompatible(Item item, int meta)
 	{
+		Block target = Block.getBlockFromItem(item);
+		if(target instanceof BlockFlora || target.toString().startsWith("plantmegapack"))
+		{
+			return false;
+		}
 		for(BlockInfo i : cardboardBoxIgnore)
 		{
-			if(i.block == Block.getBlockFromItem(item) && (i.meta == OreDictionary.WILDCARD_VALUE || i.meta == meta))
+			if(i.block ==  target && (i.meta == OreDictionary.WILDCARD_VALUE || i.meta == meta))
 			{
 				return false;
 			}
 		}
-
+		
 		return true;
+
 	}
 
 	public static void addBoxBlacklist(Block block, int meta)
