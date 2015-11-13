@@ -34,7 +34,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
 import net.minecraft.util.StringUtils;
 
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
@@ -62,8 +61,6 @@ public class ClientTickHandler
 	public boolean lastTickUpdate;
 
 	public boolean shouldReset = false;
-	private static boolean sprintKeyCheck = false;
-	
 
 	public static Minecraft mc = FMLClientHandler.instance().getClient();
 
@@ -349,19 +346,6 @@ public class ClientTickHandler
 
 					mc.thePlayer.fallDistance = 0.0F;
 				}
-				if (sprintKeyCheck && mc.thePlayer.movementInput.moveForward < 1.0F) {
-		            sprintKeyCheck = false;
-		        }
-		        
-		        
-		        if (!sprintKeyCheck && mc.thePlayer.movementInput.moveForward >= 1.0F && !mc.thePlayer.isCollidedHorizontally && mc.thePlayer.capabilities.allowFlying) {
-		            if (mc.thePlayer.sprintToggleTimer <= 0 && !mc.gameSettings.keyBindSprint.getIsKeyPressed()) {
-		                mc.thePlayer.sprintToggleTimer = 7;
-		                sprintKeyCheck = true;
-		            } else {
-		                mc.thePlayer.setSprinting(true);
-		            }
-		        }
 
 				jetpack.useGas(mc.thePlayer.getEquipmentInSlot(3));
 			}
