@@ -22,8 +22,8 @@ public class MekanismAPI
 	public static boolean isBlockCompatible(Item item, int meta)
 	{
 		Block target = Block.getBlockFromItem(item);
-		String wtf = target.toString();
-		if(target.toString().startsWith("com.bioxx.tfc.Blocks.Flora") || target.toString().startsWith("plantmegapack"))
+		String objectName = target.toString();
+		if(objectName.startsWith("com.bioxx.tfc.Blocks.Flora") || objectName.startsWith("plantmegapack") || objectName.contains("fungi") || objectName.contains("BlockCustomTallGrass"))
 		{
 			return false;
 		}
