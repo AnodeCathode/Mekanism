@@ -269,7 +269,7 @@ public class ItemFreeRunners extends ItemArmor implements IEnergizedItem, ISpeci
 
 			if(boots.getEnergy(stack) > 0 && event.source == DamageSource.fall)
 			{
-				boots.setEnergy(stack, boots.getEnergy(stack)-event.ammount*50);
+				boots.setEnergy(stack, boots.getEnergy(stack)-event.ammount*200);
 				event.setCanceled(true);
 			}
 		}
