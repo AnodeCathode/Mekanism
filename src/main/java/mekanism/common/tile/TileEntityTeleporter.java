@@ -450,15 +450,15 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
 
 	public int calculateEnergyCost(Entity entity, Coord4D coords)
 	{
-		int energyCost = 1000;
+		int energyCost = 100000;
 
 		if(entity.worldObj.provider.dimensionId != coords.dimensionId)
 		{
-			energyCost+=10000;
+			energyCost+=100000;
 		}
 
 		int distance = (int)entity.getDistance(coords.xCoord, coords.yCoord, coords.zCoord);
-		energyCost+=(distance*10);
+		energyCost+=(distance*50);
 
 		return energyCost;
 	}

@@ -36,16 +36,16 @@ public class ItemPortableTeleporter extends ItemEnergized
 			return 0;
 		}
 
-		int neededEnergy = 1000;
+		int neededEnergy = 100000;
 
 		if(entity.worldObj.provider.dimensionId != coords.dimensionId)
 		{
-			neededEnergy+=10000;
+			neededEnergy+=100000;
 		}
 
 		int distance = (int)entity.getDistance(coords.xCoord, coords.yCoord, coords.zCoord);
 
-		neededEnergy+=(distance*10);
+		neededEnergy+=(distance*50);
 
 		return neededEnergy;
 	}
