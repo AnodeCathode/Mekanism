@@ -14,6 +14,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.ArrayList;
 import java.util.EnumSet;
 
+import com.bioxx.tfc.Core.WeatherManager;
+
 public class TileEntitySolarGenerator extends TileEntityGenerator
 {
 	/** Whether or not this generator sees the sun. */
@@ -62,7 +64,7 @@ public class TileEntitySolarGenerator extends TileEntityGenerator
 		{
 			ChargeUtils.charge(0, this);
 			
-			if(worldObj.isDaytime() && ((!worldObj.isRaining() && !worldObj.isThundering()) || isDesert()) && !worldObj.provider.hasNoSky && worldObj.canBlockSeeTheSky(xCoord, yCoord+1, zCoord))
+			if(worldObj.isDaytime() && ((!WeatherManager.isRainingOnCoord(worldObj, xCoord, yCoord, zCoord)) || isDesert()) && !worldObj.provider.hasNoSky && worldObj.canBlockSeeTheSky(xCoord, yCoord+1, zCoord))
 			{
 				seesSun = true;
 			}
