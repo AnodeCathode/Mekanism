@@ -117,7 +117,7 @@ public class MekanismGenerators implements IModule
 			"SSS", "AIA", "PEP", Character.valueOf('S'), GeneratorsItems.SolarPanel, Character.valueOf('A'), MekanismItems.EnrichedAlloy, Character.valueOf('I'), "ingotBlackSteel", Character.valueOf('P'), "plateBlackSteel", Character.valueOf('E'), MekanismItems.EnergyTablet.getUnchargedItem()
 		}));
 		CraftingManager.getInstance().getRecipeList().add(new MekanismRecipe(new ItemStack(GeneratorsBlocks.Generator, 1, 5), new Object[] {
-			"SES", "SBS", "ICI", Character.valueOf('S'), new ItemStack(GeneratorsBlocks.Generator, 1, 1), Character.valueOf('E'), "alloyUltimate", Character.valueOf('I'), "ingotIron", Character.valueOf('B'), "ingotBlueSteel", Character.valueOf('C'), MekanismUtils.getEnergyCube(EnergyCubeTier.BASIC)
+			"SES", "SBS", "ICI", Character.valueOf('S'), new ItemStack(GeneratorsBlocks.Generator, 1, 1), Character.valueOf('E'), "alloyUltimate", Character.valueOf('I'), "ingotBlackSteel", Character.valueOf('B'), "ingotBlueSteel", Character.valueOf('C'), MekanismUtils.getEnergyCube(EnergyCubeTier.BASIC)
 		}));
 		CraftingManager.getInstance().getRecipeList().add(new MekanismRecipe(new ItemStack(GeneratorsBlocks.Generator, 1, 4), new Object[] {
 			"RER", "BCB", "NEN", Character.valueOf('R'), "dustRedstone", Character.valueOf('E'), "alloyElite" , Character.valueOf('B'), MekanismItems.BioFuel, Character.valueOf('C'), MekanismUtils.getControlCircuit(BaseTier.BASIC), Character.valueOf('N'), "plateBlackSteel"
