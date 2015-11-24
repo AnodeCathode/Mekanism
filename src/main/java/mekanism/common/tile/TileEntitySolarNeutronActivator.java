@@ -4,6 +4,8 @@ import io.netty.buffer.ByteBuf;
 
 import java.util.ArrayList;
 
+import com.bioxx.tfc.Core.WeatherManager;
+
 import mekanism.api.Coord4D;
 import mekanism.api.Range4D;
 import mekanism.api.gas.Gas;
@@ -97,7 +99,7 @@ public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock im
 			
 			SolarNeutronRecipe recipe = getRecipe();
 
-			boolean sky =  ((!worldObj.isRaining() && !worldObj.isThundering()) || isDesert()) && !worldObj.provider.hasNoSky && worldObj.canBlockSeeTheSky(xCoord, yCoord+1, zCoord);
+			boolean sky =  worldObj.isDaytime() && !WeatherManager.isRainingOnCoord(worldObj, xCoord, yCoord, zCoord) && !worldObj.provider.hasNoSky && worldObj.canBlockSeeTheSky(xCoord, yCoord+1, zCoord);
 			
 			if(worldObj.isDaytime() && sky && canOperate(recipe) && MekanismUtils.canFunction(this))
 			{

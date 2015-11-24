@@ -64,7 +64,7 @@ public class TileEntitySolarGenerator extends TileEntityGenerator
 		{
 			ChargeUtils.charge(0, this);
 			
-			if(worldObj.isDaytime() && ((!WeatherManager.isRainingOnCoord(worldObj, xCoord, yCoord, zCoord)) || isDesert()) && !worldObj.provider.hasNoSky && worldObj.canBlockSeeTheSky(xCoord, yCoord+1, zCoord))
+			if(worldObj.isDaytime() && !WeatherManager.isRainingOnCoord(worldObj, xCoord, yCoord, zCoord) && !worldObj.provider.hasNoSky && worldObj.canBlockSeeTheSky(xCoord, yCoord+1, zCoord))
 			{
 				seesSun = true;
 			}
