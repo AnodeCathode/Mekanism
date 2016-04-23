@@ -1,12 +1,12 @@
 package mekanism.common.multipart;
 
-import java.util.Collection;
-
+import codechicken.lib.vec.Vector3;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.client.render.RenderPartTransmitter;
 import mekanism.common.FluidNetwork;
 import mekanism.common.Tier;
-import mekanism.common.Tier.PipeTier;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.PipeUtils;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -14,17 +14,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
-import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidHandler;
+import net.minecraftforge.fluids.*;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-import codechicken.lib.vec.Vector3;
+import java.util.Collection;
 
 public class PartMechanicalPipe extends PartTransmitter<IFluidHandler, FluidNetwork> implements IFluidHandler
 {
@@ -50,17 +42,8 @@ public class PartMechanicalPipe extends PartTransmitter<IFluidHandler, FluidNetw
 	{
 		if(!world().isRemote)
 		{
-			if(getTransmitter().hasTransmitterNetwork() && getTransmitter().getTransmitterNetworkSize() > 0)
-			{
-				FluidStack last = getSaveShare();
-
-				if((last != null && !(lastWrite != null && lastWrite.amount == last.amount && lastWrite.getFluid() == last.getFluid())) || (last == null && lastWrite != null))
-				{
-					lastWrite = last;
-					MekanismUtils.saveChunk(tile());
-				}
-			}
-
+            updateShare();
+            
 			IFluidHandler[] connectedAcceptors = PipeUtils.getConnectedAcceptors(tile());
 
 			for(ForgeDirection side : getConnections(ConnectionType.PULL))
@@ -84,6 +67,21 @@ public class PartMechanicalPipe extends PartTransmitter<IFluidHandler, FluidNetw
 
 		super.update();
 	}
+
+    @Override
+    public void updateShare()
+    {
+        if(getTransmitter().hasTransmitterNetwork() && getTransmitter().getTransmitterNetworkSize() > 0)
+        {
+            FluidStack last = getSaveShare();
+
+            if((last != null && !(lastWrite != null && lastWrite.amount == last.amount && lastWrite.getFluid() == last.getFluid())) || (last == null && lastWrite != null))
+            {
+                lastWrite = last;
+                MekanismUtils.saveChunk(tile());
+            }
+        }
+    }
 
 	private FluidStack getSaveShare()
 	{
@@ -134,6 +132,9 @@ public class PartMechanicalPipe extends PartTransmitter<IFluidHandler, FluidNetw
 		{
 			buffer.setFluid(FluidStack.loadFluidStackFromNBT(nbtTags.getCompoundTag("cacheFluid")));
 		}
+        else {
+            buffer.setFluid(null);
+        }
 	}
 
 	@Override
@@ -145,6 +146,9 @@ public class PartMechanicalPipe extends PartTransmitter<IFluidHandler, FluidNetw
 		{
 			nbtTags.setTag("cacheFluid", lastWrite.writeToNBT(new NBTTagCompound()));
 		}
+        else {
+            nbtTags.removeTag("cacheFluid");
+        }
 
 		nbtTags.setInteger("tier", tier.ordinal());
 	}

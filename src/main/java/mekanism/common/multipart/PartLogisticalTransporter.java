@@ -1,12 +1,13 @@
 package mekanism.common.multipart;
 
+import io.netty.buffer.ByteBuf;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.Range4D;
-import mekanism.common.base.ITransporterTile;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.client.render.RenderPartTransmitter;
 import mekanism.common.InventoryNetwork;
@@ -14,6 +15,7 @@ import mekanism.common.Mekanism;
 import mekanism.common.Tier;
 import mekanism.common.Tier.TransporterTier;
 import mekanism.common.base.ILogisticalTransporter;
+import mekanism.common.base.ITransporterTile;
 import mekanism.common.content.transporter.InvStack;
 import mekanism.common.content.transporter.PathfinderCache;
 import mekanism.common.content.transporter.TransporterManager;
@@ -34,10 +36,9 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.common.util.ForgeDirection;
+import codechicken.lib.vec.Vector3;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import io.netty.buffer.ByteBuf;
-import codechicken.lib.vec.Vector3;
 
 public class PartLogisticalTransporter extends PartTransmitter<IInventory, InventoryNetwork> implements ITransporterTile
 {
@@ -341,7 +342,6 @@ public class PartLogisticalTransporter extends PartTransmitter<IInventory, Inven
 				TransporterStack stack = TransporterStack.readFromNBT(tagList.getCompoundTagAt(i));
 
 				getTransmitter().transit.add(stack);
-				TransporterManager.add(stack);
 			}
 		}
 	}
@@ -435,6 +435,9 @@ public class PartLogisticalTransporter extends PartTransmitter<IInventory, Inven
 	@Override
 	public void takeShare() {}
 
+    @Override
+    public void updateShare() {}
+
 	@Override
 	public MultipartTransporter getTransmitter()
 	{
@@ -443,6 +446,6 @@ public class PartLogisticalTransporter extends PartTransmitter<IInventory, Inven
 
 	public double getCost()
 	{
-		return 5D / tier.speed;
+		return (double)TransporterTier.ULTIMATE.speed / (double)tier.speed;
 	}
 }

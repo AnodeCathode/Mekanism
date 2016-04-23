@@ -25,6 +25,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.S07PacketRespawn;
 import net.minecraft.network.play.server.S1DPacketEntityEffect;
+import net.minecraft.network.play.server.S1FPacketSetExperience;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.AxisAlignedBB;
@@ -33,6 +34,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.*;
 
@@ -346,6 +348,7 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
 				if(entity instanceof EntityPlayerMP)
 				{
 					teleportPlayerTo((EntityPlayerMP)entity, closestCoords, teleporter);
+                    alignPlayer((EntityPlayerMP)entity, closestCoords);
 				}
 				else {
 					teleportEntityTo(entity, closestCoords, teleporter);
@@ -397,6 +400,8 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
 				player.playerNetServerHandler.sendPacket(new S1DPacketEntityEffect(player.getEntityId(), potioneffect));
 			}
 
+			player.playerNetServerHandler.sendPacket(new S1FPacketSetExperience(player.experience, player.experienceTotal, player.experienceLevel)); // Force XP sync
+
 			FMLCommonHandler.instance().firePlayerChangedDimensionEvent(player, id, coord.dimensionId);
 		}
 		else {
@@ -431,6 +436,43 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
 			entity.isDead = true;
 		}
 	}
+
+    public static void alignPlayer(EntityPlayerMP player, Coord4D coord)
+    {
+        Coord4D upperCoord = coord.getFromSide(ForgeDirection.UP);
+        ForgeDirection side = null;
+        float yaw = player.rotationYaw;
+
+        for(ForgeDirection iterSide : MekanismUtils.SIDE_DIRS)
+        {
+            if(upperCoord.getFromSide(iterSide).isAirBlock(player.worldObj))
+            {
+                side = iterSide;
+                break;
+            }
+        }
+
+        if(side != null)
+        {
+            switch(side)
+            {
+                case NORTH:
+                    yaw = 180;
+                    break;
+                case SOUTH:
+                    yaw = 0;
+                    break;
+                case WEST:
+                    yaw = 90;
+                    break;
+                case EAST:
+                    yaw = 270;
+                    break;
+            }
+        }
+
+        player.playerNetServerHandler.setPlayerLocation(player.posX, player.posY, player.posZ, yaw, player.rotationPitch);
+    }
 
 	public List<Entity> getToTeleport()
 	{

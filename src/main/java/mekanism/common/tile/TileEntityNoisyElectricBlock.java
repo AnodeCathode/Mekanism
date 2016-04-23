@@ -2,9 +2,8 @@ package mekanism.common.tile;
 
 import mekanism.api.MekanismConfig.client;
 import mekanism.api.Pos3D;
+import mekanism.client.HolidayManager;
 import mekanism.client.sound.ISoundSource;
-import mekanism.client.sound.SoundHandler;
-import mekanism.client.sound.TileSound;
 import mekanism.common.base.IActiveState;
 import mekanism.common.base.IHasSound;
 import mekanism.common.base.SoundWrapper;
@@ -21,18 +20,22 @@ public abstract class TileEntityNoisyElectricBlock extends TileEntityElectricBlo
 	/** The bundled URL of this machine's sound effect */
 	@SideOnly(Side.CLIENT)
 	public SoundWrapper sound;
+	
+	/** The path of this machine's sound */
+	public String soundPath;
 
 	/**
 	 * The base of all blocks that deal with electricity and make noise.
 	 *
+	 * @param sound     - the sound path of this block
 	 * @param name      - full name of this block
 	 * @param maxEnergy - how much energy this block can store
 	 */
-	public TileEntityNoisyElectricBlock(String soundPath, String name, double maxEnergy)
+	public TileEntityNoisyElectricBlock(String sound, String name, double maxEnergy)
 	{
 		super(name, maxEnergy);
-
-		soundURL = new ResourceLocation("mekanism", "tile." + soundPath);
+		
+		soundPath = sound;
 	}
 
 	@Override
@@ -105,7 +108,10 @@ public abstract class TileEntityNoisyElectricBlock extends TileEntityElectricBlo
 
 		if(worldObj.isRemote)
 		{
-			initSounds();
+			try {
+				soundURL = HolidayManager.filterSound(new ResourceLocation("mekanism", "tile." + soundPath));
+				initSounds();
+			} catch(Throwable t) {}
 		}
 	}
 

@@ -12,7 +12,6 @@ import mekanism.common.base.ITransporterTile;
 import mekanism.common.content.transporter.TransporterManager;
 import mekanism.common.content.transporter.TransporterStack;
 import mekanism.common.tile.TileEntityLogisticalSorter;
-
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -56,19 +55,24 @@ public final class TransporterUtils
 	public static boolean isValidAcceptorOnSide(TileEntity tile, ForgeDirection side)
 	{
 		if(tile instanceof ITransmitterTile || !(tile instanceof IInventory))
+		{
 			return false;
+		}
 
 		IInventory inventory = (IInventory)tile;
 
 		if(inventory.getSizeInventory() > 0)
 		{
 			if(!(inventory instanceof ISidedInventory))
+			{
 				return true;
+			}
 
 			int[] slots = ((ISidedInventory)inventory).getAccessibleSlotsFromSide(side.getOpposite().ordinal());
 
 			return (slots != null && slots.length > 0);
 		}
+		
 		return false;
 	}
 
@@ -198,7 +202,7 @@ public final class TransporterUtils
 	{
 		float[] pos;
 
-		if(stack.pathToTarget != null)
+		if(stack.hasPath())
 		{
 			pos = TransporterUtils.getStackPosition(tileEntity, stack, 0);
 		}

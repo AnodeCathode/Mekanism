@@ -29,8 +29,8 @@ import mekanism.common.network.PacketElectricBowState;
 import mekanism.common.network.PacketElectricBowState.ElectricBowStateMessage;
 import mekanism.common.network.PacketElectricChest;
 import mekanism.common.network.PacketElectricChest.ElectricChestMessage;
-import mekanism.common.network.PacketFlamethrowerActive;
-import mekanism.common.network.PacketFlamethrowerActive.FlamethrowerActiveMessage;
+import mekanism.common.network.PacketFlamethrowerData;
+import mekanism.common.network.PacketFlamethrowerData.FlamethrowerDataMessage;
 import mekanism.common.network.PacketJetpackData;
 import mekanism.common.network.PacketJetpackData.JetpackDataMessage;
 import mekanism.common.network.PacketKey;
@@ -126,8 +126,8 @@ public class PacketHandler
 		netHandler.registerMessage(PacketBoxBlacklist.class, BoxBlacklistMessage.class, 24, Side.CLIENT);
 		netHandler.registerMessage(PacketPortableTankState.class, PortableTankStateMessage.class, 25, Side.SERVER);
 		netHandler.registerMessage(PacketContainerEditMode.class, ContainerEditModeMessage.class, 26, Side.SERVER);
-		netHandler.registerMessage(PacketFlamethrowerActive.class, FlamethrowerActiveMessage.class, 27, Side.CLIENT);
-		netHandler.registerMessage(PacketFlamethrowerActive.class, FlamethrowerActiveMessage.class, 27, Side.SERVER);
+		netHandler.registerMessage(PacketFlamethrowerData.class, FlamethrowerDataMessage.class, 27, Side.CLIENT);
+		netHandler.registerMessage(PacketFlamethrowerData.class, FlamethrowerDataMessage.class, 27, Side.SERVER);
 		netHandler.registerMessage(PacketDropperUse.class, DropperUseMessage.class, 28, Side.SERVER);
 	}
 	
@@ -144,6 +144,10 @@ public class PacketHandler
 				if(data instanceof Integer)
 				{
 					output.writeInt((Integer)data);
+				}
+				else if(data instanceof Short)
+				{
+					output.writeShort((Short)data);
 				}
 				else if(data instanceof Boolean)
 				{

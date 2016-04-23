@@ -598,6 +598,7 @@ gui.digitalMiner.missingBlock=Missing block
 
 //Recipe names
 recipe.mekanismShaped=Shaped
+recipe.mekanismShapeless=Shapeless
 
 //Item and block tooltip text
 tooltip.configurator.configurate=Configurate
@@ -685,6 +686,11 @@ tooltip.balloon=Balloon
 tooltip.jetpack.regular=Regular
 tooltip.jetpack.hover=Hover
 tooltip.jetpack.disabled=Disabled
+
+tooltip.flamethrower.combat=Combat
+tooltip.flamethrower.heat=Heat
+tooltip.flamethrower.inferno=Inferno
+tooltip.flamethrower.modeBump=Flamethrower mode bumped to
 
 tooltip.seismicReader.needsEnergy=Not enough energy to interpret vibration
 tooltip.seismicReader.noVibrations=Unable to discover any vibrations

@@ -7,7 +7,6 @@ import java.util.List;
 
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
-import mekanism.api.transmitters.IBlockableConnection;
 import mekanism.common.PacketHandler;
 import mekanism.common.base.ILogisticalTransporter;
 import mekanism.common.base.ITransporterTile;
@@ -18,6 +17,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 public class TransporterStack
 {
@@ -31,7 +32,7 @@ public class TransporterStack
 	
 	public ForgeDirection idleDir = ForgeDirection.UNKNOWN;
 
-	public List<Coord4D> pathToTarget = new ArrayList<Coord4D>();
+	private List<Coord4D> pathToTarget = new ArrayList<Coord4D>();
 
 	public Coord4D originalLocation;
 	public Coord4D homeLocation;
@@ -150,10 +151,32 @@ public class TransporterStack
 
 		return stack;
 	}
+	
+	public void setPath(List<Coord4D> path, Path type)
+	{
+		//Make sure old path isn't null
+		if(pathType != Path.NONE)
+		{
+			TransporterManager.remove(this);
+		}
+		
+		pathToTarget = path;
+		pathType = type;
+		
+		if(pathType != Path.NONE)
+		{
+			TransporterManager.add(this);
+		}
+	}
 
 	public boolean hasPath()
 	{
-		return pathToTarget != null && pathToTarget.size() >= 2;
+		return getPath() != null && getPath().size() >= 2;
+	}
+	
+	public List<Coord4D> getPath()
+	{
+		return pathToTarget;
 	}
 
 	public ItemStack recalculatePath(ILogisticalTransporter transporter, int min)
@@ -165,9 +188,8 @@ public class TransporterStack
 			return itemStack;
 		}
 
-		pathToTarget = newPath.path;
-		pathType = Path.DEST;
 		idleDir = ForgeDirection.UNKNOWN;
+		setPath(newPath.path, Path.DEST);
 		initiatedPath = true;
 
 		return newPath.rejected;
@@ -182,9 +204,8 @@ public class TransporterStack
 			return itemStack;
 		}
 
-		pathToTarget = newPath.path;
-		pathType = Path.DEST;
 		idleDir = ForgeDirection.UNKNOWN;
+		setPath(newPath.path, Path.DEST);
 		initiatedPath = true;
 
 		return newPath.rejected;
@@ -192,19 +213,19 @@ public class TransporterStack
 
 	public boolean calculateIdle(ILogisticalTransporter transporter)
 	{
-		List<Coord4D> newPath = TransporterPathfinder.getIdlePath(transporter, this);
+		Pair<List<Coord4D>, Path> newPath = TransporterPathfinder.getIdlePath(transporter, this);
 
 		if(newPath == null)
 		{
 			return false;
 		}
 		
-		if(pathType == Path.HOME)
+		if(newPath.getRight() == Path.HOME)
 		{
 			idleDir = ForgeDirection.UNKNOWN;
 		}
-
-		pathToTarget = newPath;
+		
+		setPath(newPath.getLeft(), newPath.getRight());
 
 		originalLocation = transporter.coord();
 		initiatedPath = true;
@@ -310,7 +331,7 @@ public class TransporterStack
 
 	public Coord4D getDest()
 	{
-		return pathToTarget.get(0);
+		return getPath().get(0);
 	}
 
 	public static enum Path
