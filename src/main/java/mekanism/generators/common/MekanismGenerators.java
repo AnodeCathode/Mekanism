@@ -124,7 +124,7 @@ public class MekanismGenerators implements IModule
 				"GGG", "RAR", "PPP", Character.valueOf('G'), "paneGlass", Character.valueOf('R'), "dustRedstone", Character.valueOf('A'), MekanismItems.EnrichedAlloy, Character.valueOf('P'), "ingotOsmium"
 		}));
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(GeneratorsBlocks.Generator, 1, 6), new Object[] {
-				" O ", "OAO", "ECE", Character.valueOf('O'), "ingotSteel", Character.valueOf('A'), MekanismUtils.getControlCircuit(BaseTier.ELITE), Character.valueOf('E'), "plateBlackSteel", Character.valueOf('C'), MekanismUtils.getEnergyCube(EnergyCubeTier.BASIC)
+				" O ", "OAO", "ECE", Character.valueOf('O'), "ingotSteel", Character.valueOf('A'), MekanismUtils.getControlCircuit(BaseTier.ELITE), Character.valueOf('E'), "plateBlackSteel", Character.valueOf('C'), MekanismUtils.getEnergyCube(Tier.EnergyCubeTier.BASIC)
 		}));
 		
 		//Reactor Recipes
