@@ -461,7 +461,7 @@ public class Mekanism
 				Character.valueOf('I'), new ItemStack(MekanismBlocks.MachineBlock, 1, 0), Character.valueOf('F'), new ItemStack(MekanismBlocks.BasicBlock, 1, 9)
 		}));
 		MachineType.PORTABLE_TANK.addRecipe(new ShapedMekanismRecipe(new ItemStack(MekanismBlocks.MachineBlock2, 1, 11), new Object[] {
-			"PCP", "P P", "PBP", Character.valueOf('P'), new ItemStack(Blocks.glass_pane, 1, OreDictionary.WILDCARD_VALUE), Character.valueOf('B'), new ItemStack(Items.bucket), Character.valueOf('C'), MekanismUtils.getControlCircuit(BaseTier.ADVANCED)
+			"PCP", "P P", "PBP", Character.valueOf('P'), "paneGlass", Character.valueOf('B'), new ItemStack(Items.bucket), Character.valueOf('C'), MekanismUtils.getControlCircuit(BaseTier.ADVANCED)
 		}));
 		MachineType.FLUIDIC_PLENISHER.addRecipe(new ShapedMekanismRecipe(new ItemStack(MekanismBlocks.MachineBlock2, 1, 12), new Object[] {
 				"TRT", "CPC", "TBT", Character.valueOf('P'), new ItemStack(MekanismBlocks.MachineBlock, 1, 12), Character.valueOf('T'), "ingotSteel", Character.valueOf('C'), MekanismUtils.getControlCircuit(BaseTier.ADVANCED), Character.valueOf('R'), "plateRedSteel", Character.valueOf('B'), "plateBlueSteel"
