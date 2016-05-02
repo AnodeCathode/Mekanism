@@ -338,7 +338,7 @@ public class Mekanism
 			"OOO", "OGO", "OOO", Character.valueOf('O'), "ingotRefinedObsidian", Character.valueOf('G'), "ingotRefinedGlowstone"
 		}));
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(MekanismBlocks.BasicBlock, 1, 8), new Object[] {
-			" S ", "HP ", " S ", Character.valueOf('S'), "plateSteel", Character.valueOf('H'), new ItemStack(TFCItems.blackSteelHammerHead, 1, 0), Character.valueOf('P'), "ingotOsmium"
+			" S ", "HP ", " S ", Character.valueOf('S'), "plateSteel", Character.valueOf('H'), "craftingToolHardHammer", Character.valueOf('P'), "ingotOsmium"
 		}));
 		MachineType.ENERGIZED_SMELTER.addRecipe(new ShapedMekanismRecipe(new ItemStack(MekanismBlocks.MachineBlock, 1, 10), new Object[] {
 				"RCR", "GIH", "RXR", Character.valueOf('C'), MekanismUtils.getControlCircuit(BaseTier.ADVANCED), Character.valueOf('R'), "dustRedstone", Character.valueOf('G'), TFCItems.redSteelBucketWater, Character.valueOf('I'), new ItemStack(MekanismBlocks.BasicBlock, 1, 8), Character.valueOf('H'), "bucketLava", Character.valueOf('X'), "ingotDoubleBlackSteel"
