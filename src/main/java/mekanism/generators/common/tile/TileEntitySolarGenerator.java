@@ -1,8 +1,10 @@
 package mekanism.generators.common.tile;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+
+import java.util.ArrayList;
+import java.util.EnumSet;
+
 import mekanism.api.MekanismConfig.generators;
 import mekanism.common.util.ChargeUtils;
 import mekanism.common.util.MekanismUtils;
@@ -10,9 +12,8 @@ import micdoodle8.mods.galacticraft.api.world.ISolarLevel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.biome.BiomeGenDesert;
 import net.minecraftforge.common.util.ForgeDirection;
-
-import java.util.ArrayList;
-import java.util.EnumSet;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 import com.bioxx.tfc.Core.WeatherManager;
 
@@ -46,7 +47,7 @@ public class TileEntitySolarGenerator extends TileEntityGenerator
 	@SideOnly(Side.CLIENT)
 	public float getVolume()
 	{
-		return 0.05F;
+		return 0.05F*super.getVolume();
 	}
 
 	@Override
@@ -85,7 +86,7 @@ public class TileEntitySolarGenerator extends TileEntityGenerator
 
 	public boolean isDesert()
 	{
-		return worldObj.provider.getBiomeGenForCoords(xCoord >> 4, zCoord >> 4) instanceof BiomeGenDesert;
+		return worldObj.provider.getBiomeGenForCoords(xCoord, zCoord).getBiomeClass() == BiomeGenDesert.class;
 	}
 
 	@Override
@@ -140,7 +141,7 @@ public class TileEntitySolarGenerator extends TileEntityGenerator
 		return 0;
 	}
 
-    private static final String[] methods = new String[] {"getStored", "getOutput", "getMaxEnergy", "getEnergyNeeded", "getSeesSun"};
+    private static final String[] methods = new String[] {"getEnergy", "getOutput", "getMaxEnergy", "getEnergyNeeded", "getSeesSun"};
 
 	@Override
 	public String[] getMethods()
@@ -172,7 +173,11 @@ public class TileEntitySolarGenerator extends TileEntityGenerator
 	public void handlePacketData(ByteBuf dataStream)
 	{
 		super.handlePacketData(dataStream);
-		seesSun = dataStream.readBoolean();
+		
+		if(worldObj.isRemote)
+		{
+			seesSun = dataStream.readBoolean();
+		}
 	}
 
 	@Override
