@@ -1017,14 +1017,6 @@ public final class MekanismUtils
 		player.openContainer.windowId = id;
 		player.openContainer.addCraftingToCrafters(player);
 	}
-	/**
-	 * FML doesn't really do GUIs the way it's supposed to -- opens Electric Chest GUI on client and server.
-	 * Call this method server-side only!
-	 * @param player - player to open GUI
-	 * @param tileEntity - TileEntity of the chest, if it's not an item
-	 * @param inventory - IInventory of the item, if it's not a block
-	 * @param isBlock - whether or not this electric chest is in it's block form
-	 */
 
 	public static void openElectricRefrigeratedChestGui(EntityPlayerMP player, TileEntityElectricRefrigeratedChest tileEntity, IInventory inventory, boolean isBlock)
 	{

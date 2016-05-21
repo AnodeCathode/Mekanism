@@ -1,5 +1,6 @@
 package mekanism.common.inventory.container;
 
+import invtweaks.api.container.ChestContainer;
 import mekanism.common.block.BlockMachine;
 import mekanism.common.inventory.slot.SlotElectricRefrigeratedChest;
 import mekanism.common.tile.TileEntityElectricRefrigeratedChest;

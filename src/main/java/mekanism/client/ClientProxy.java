@@ -22,7 +22,7 @@ import mekanism.client.gui.GuiCrusher;
 import mekanism.client.gui.GuiDictionary;
 import mekanism.client.gui.GuiDigitalMiner;
 import mekanism.client.gui.GuiDynamicTank;
-import mekanism.client.gui.GuiElectricRefridgeratedChest;
+import mekanism.client.gui.GuiElectricRefrigeratedChest;
 import mekanism.client.gui.GuiElectricPump;
 import mekanism.client.gui.GuiElectrolyticSeparator;
 import mekanism.client.gui.GuiEnergizedSmelter;
@@ -114,6 +114,7 @@ import mekanism.common.CommonProxy;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismBlocks;
 import mekanism.common.MekanismItems;
+import mekanism.common.base.IElectricMachine;
 import mekanism.common.base.ISideConfiguration;
 import mekanism.common.base.IUpgradeTile;
 import mekanism.common.block.BlockMachine.MachineType;
@@ -260,7 +261,7 @@ public class ClientProxy extends CommonProxy
 			else {
 				ItemStack stack = entityplayer.getCurrentEquippedItem();
 
-				if(stack != null && stack.getItem() instanceof IElectricRefrigeratedChest && MachineType.get(stack) == MachineType.ELECTRIC_REFRIGERATED_CHEST)
+				if(MachineType.get(stack) == MachineType.ELECTRIC_REFRIGERATED_CHEST)
 				{
 					InventoryElectricRefrigeratedChest inventory = new InventoryElectricRefrigeratedChest(entityplayer);
 					FMLClientHandler.instance().displayGuiScreen(entityplayer, new GuiElectricRefrigeratedChest(entityplayer.inventory, inventory));

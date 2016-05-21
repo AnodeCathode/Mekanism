@@ -36,8 +36,6 @@ import mekanism.common.base.ISustainedTank;
 import mekanism.common.base.ITierItem;
 import mekanism.common.base.IUpgradeTile;
 import mekanism.common.item.ItemBlockMachine;
-import mekanism.common.network.PacketElectricRefrigeratedChest.ElectricRefrigeratedChestMessage;
-import mekanism.common.network.PacketElectricRefrigeratedChest.ElectricRefrigeratedChestPacketType;
 import mekanism.common.network.PacketLogisticalSorterGui.LogisticalSorterGuiMessage;
 import mekanism.common.network.PacketLogisticalSorterGui.SorterGuiPacket;
 import mekanism.common.recipe.ShapedMekanismRecipe;
@@ -627,23 +625,6 @@ public class BlockMachine extends BlockContainer implements ISpecialBounds, IBlo
 
 			switch(type)
 			{
-				case ELECTRIC_REFRIGERATED_CHEST:
-					if(!entityplayer.isSneaking() && !world.isSideSolid(x, y + 1, z, ForgeDirection.DOWN))
-					{
-						TileEntityElectricRefrigeratedChest fridge = (TileEntityElectricRefrigeratedChest)tileEntity;
-
-						if(SecurityUtils.canAccess(entityplayer, tileEntity))
-						{
-							MekanismUtils.openElectricRefrigeratedChestGui((EntityPlayerMP)entityplayer, fridge, null, true);
-						}
-						else {
-							SecurityUtils.displayNoAccess(entityplayer);
-						}
-
-						return true;
-					}
-
-					break;
 				case PERSONAL_CHEST:
 					if(!entityplayer.isSneaking() && !world.isSideSolid(x, y + 1, z, ForgeDirection.DOWN))
 					{
@@ -660,6 +641,24 @@ public class BlockMachine extends BlockContainer implements ISpecialBounds, IBlo
 						return true;
 					}
 					
+					break;
+
+				case ELECTRIC_REFRIGERATED_CHEST:
+					if(!entityplayer.isSneaking() && !world.isSideSolid(x, y + 1, z, ForgeDirection.DOWN))
+					{
+						TileEntityElectricRefrigeratedChest fridge = (TileEntityElectricRefrigeratedChest)tileEntity;
+
+						if(SecurityUtils.canAccess(entityplayer, tileEntity) || MekanismUtils.isOp((EntityPlayerMP)entityplayer))
+						{
+							MekanismUtils.openElectricRefrigeratedChestGui((EntityPlayerMP)entityplayer, fridge, null, true);
+						}
+						else {
+							SecurityUtils.displayNoAccess(entityplayer);
+						}
+
+						return true;
+					}
+
 					break;
 				case FLUID_TANK:
 					if(!entityplayer.isSneaking())
@@ -1137,7 +1136,7 @@ public class BlockMachine extends BlockContainer implements ISpecialBounds, IBlo
 		switch(type)
 		{
 			case CHARGEPAD:
-			case ELECTRIC_REFRIGERATED_CHEST;
+			case ELECTRIC_REFRIGERATED_CHEST:
 			case PERSONAL_CHEST:
 				return false;
 			case FLUID_TANK:
