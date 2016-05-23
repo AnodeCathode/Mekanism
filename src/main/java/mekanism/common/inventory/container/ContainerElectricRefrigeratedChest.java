@@ -3,6 +3,7 @@ package mekanism.common.inventory.container;
 import invtweaks.api.container.ChestContainer;
 import mekanism.common.block.BlockMachine;
 import mekanism.common.inventory.slot.SlotElectricRefrigeratedChest;
+import mekanism.common.inventory.slot.SlotEnergy;
 import mekanism.common.tile.TileEntityElectricRefrigeratedChest;
 import mekanism.common.util.ChargeUtils;
 import net.minecraft.entity.player.EntityPlayer;
@@ -41,6 +42,8 @@ public class ContainerElectricRefrigeratedChest extends Container
                 addSlotToContainer(new SlotElectricRefrigeratedChest(getInv(), slotX + slotY * 9, 8 + slotX * 18, 26 + slotY * 18));
             }
         }
+
+        addSlotToContainer(new SlotEnergy.SlotDischarge(getInv(), 54, 179, 119));
 
         int slotX;
 
@@ -108,9 +111,25 @@ public class ContainerElectricRefrigeratedChest extends Container
 
             if(ChargeUtils.canBeDischarged(slotStack))
             {
+                if(slotID != 54)
+                {
+                    if(!mergeItemStack(slotStack, 54, 55, false))
+                    {
+                        return null;
+                    }
+                }
+                else if(slotID == 54)
+                {
+                    if(!mergeItemStack(slotStack, 55, inventorySlots.size(), true))
+                    {
+                        return null;
+                    }
+                }
+            }
+            else {
                 if(slotID < 54)
                 {
-                    if(!mergeItemStack(slotStack, 54, inventorySlots.size(), true))
+                    if(!mergeItemStack(slotStack, 55, inventorySlots.size(), true))
                     {
                         return null;
                     }

@@ -26,12 +26,6 @@ public class TileEntityElectricRefrigeratedChest extends TileEntityElectricBlock
 
     public static int[] INV;
 
-    public String password = "";
-
-    public boolean authenticated = false;
-
-    public boolean locked = false;
-
     public float lidAngle;
 
     public float prevLidAngle;
@@ -154,11 +148,6 @@ public class TileEntityElectricRefrigeratedChest extends TileEntityElectricBlock
             }
         }
 
-    }
-
-    public boolean canAccess()
-    {
-        return authenticated && (getEnergy() == 0 || !locked);
     }
 
     @Override

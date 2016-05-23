@@ -20,6 +20,7 @@ public class SlotPersonalChest extends Slot
 			return false;
 		}
 		
-		return MachineType.get(inventory.getStackInSlot(getSlotIndex())) != MachineType.PERSONAL_CHEST;
+		return MachineType.get(inventory.getStackInSlot(getSlotIndex())) != MachineType.PERSONAL_CHEST
+				&& MachineType.get(inventory.getStackInSlot(getSlotIndex())) != MachineType.ELECTRIC_REFRIGERATED_CHEST;
 	}
 }
