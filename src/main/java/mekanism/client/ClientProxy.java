@@ -312,8 +312,8 @@ public class ClientProxy extends CommonProxy
 		ClientRegistry.registerTileEntity(TileEntityGasTank.class, "GasTank", new RenderGasTank());
 		ClientRegistry.registerTileEntity(TileEntityEnergyCube.class, "EnergyCube", new RenderEnergyCube());
 		ClientRegistry.registerTileEntity(TileEntityElectricPump.class, "ElectricPump", new RenderElectricPump());
-		ClientRegistry.registerTileEntity(TileEntityElectricRefrigeratedChest.class, "ElectricRefrigeratedChest", new RenderElectricRefrigeratedChest());
-		ClientRegistry.registerTileEntity(TileEntityPersonalChest.class, "ElectricChest", new RenderPersonalChest()); //TODO rename
+		ClientRegistry.registerTileEntity(TileEntityElectricRefrigeratedChest.class, "ElectricChest", new RenderElectricRefrigeratedChest());
+		ClientRegistry.registerTileEntity(TileEntityPersonalChest.class, "PersonalChest", new RenderPersonalChest()); //TODO rename
 		ClientRegistry.registerTileEntity(TileEntityDynamicTank.class, "DynamicTank", new RenderDynamicTank());
 		ClientRegistry.registerTileEntity(TileEntityDynamicValve.class, "DynamicValve", new RenderDynamicTank());
 		ClientRegistry.registerTileEntity(TileEntityChargepad.class, "Chargepad", new RenderChargepad());

@@ -475,25 +475,6 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
 				}
 			}
 		}
-		else if(MachineType.get(itemstack) == MachineType.ELECTRIC_REFRIGERATED_CHEST)
-		{
-			if(!world.isRemote)
-			{
-				if(getOwner(itemstack) == null)
-				{
-					setOwner(itemstack, entityplayer.getCommandSenderName());
-				}
-
-				if(SecurityUtils.canAccess(entityplayer, itemstack))
-				{
-					InventoryElectricRefrigeratedChest inventory = new InventoryElectricRefrigeratedChest(entityplayer);
-					MekanismUtils.openElectricRefrigeratedChestGui((EntityPlayerMP)entityplayer, null, inventory, false);
-				}
-				else {
-					SecurityUtils.displayNoAccess(entityplayer);
-				}
-			}
-		}
 		else if(type == MachineType.FLUID_TANK && getBucketMode(itemstack))
     	{
 			if(SecurityUtils.canAccess(entityplayer, itemstack))

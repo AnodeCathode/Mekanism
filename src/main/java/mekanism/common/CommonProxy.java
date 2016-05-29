@@ -172,10 +172,10 @@ public class CommonProxy implements IGuiProvider
 		GameRegistry.registerTileEntity(TileEntityGasTank.class, "GasTank");
 		GameRegistry.registerTileEntity(TileEntityEnergyCube.class, "EnergyCube");
 		GameRegistry.registerTileEntity(TileEntityElectricPump.class, "ElectricPump");
-		GameRegistry.registerTileEntity(TileEntityPersonalChest.class, "ElectricChest"); //TODO rename
+		GameRegistry.registerTileEntity(TileEntityPersonalChest.class, "PersonalChest"); //TODO rename
 		GameRegistry.registerTileEntity(TileEntityDynamicTank.class, "DynamicTank");
 		GameRegistry.registerTileEntity(TileEntityDynamicValve.class, "DynamicValve");
-		GameRegistry.registerTileEntity(TileEntityElectricRefrigeratedChest.class, "ElectricRefrigeratedChest");
+		GameRegistry.registerTileEntity(TileEntityElectricRefrigeratedChest.class, "ElectricChest");
 		GameRegistry.registerTileEntity(TileEntityChargepad.class, "Chargepad");
 		GameRegistry.registerTileEntity(TileEntityLogisticalSorter.class, "LogisticalSorter");
 		GameRegistry.registerTileEntity(TileEntityBin.class, "Bin");
