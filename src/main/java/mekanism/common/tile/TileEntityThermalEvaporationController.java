@@ -274,7 +274,7 @@ public class TileEntityThermalEvaporationController extends TileEntityThermalEva
 	{
 		if(!temperatureSet)
 		{
-			biomeTemp = worldObj.getBiomeGenForCoordsBody(xCoord, zCoord).getFloatTemperature(xCoord, yCoord, zCoord);
+			biomeTemp = (TFC_Climate.getHeightAdjustedTemp(worldObj, xCoord, yCoord, zCoord) + 4.7F) / 24.7F; //Divide to roughly match vanilla biome temp returns.
 			temperatureSet = true;
 		}
 		
@@ -314,14 +314,7 @@ public class TileEntityThermalEvaporationController extends TileEntityThermalEva
 	
 	public float getTemperature()
 	{
-		if(!temperatureSet)
-		{
-			//biomeTemp = worldObj.getBiomeGenForCoordsBody(xCoord, zCoord).getFloatTemperature(xCoord, yCoord, zCoord);
-			biomeTemp = TFC_Climate.getBioTemperatureHeight(worldObj, xCoord, yCoord, zCoord) / 35; //Divide to roughly match vanilla biome temp returns.
-			temperatureSet = true;
-		}
-
-		return biomeTemp*((float)getActiveSolars()/MAX_SOLARS);
+		return temperature;
 }
 	
 	public int getActiveSolars()
