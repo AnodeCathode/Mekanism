@@ -118,7 +118,7 @@ public class TileEntityElectricRefrigeratedChest extends TileEntityElectricBlock
                 }
                 else {
                     is = TFC_Core.tickDecay(is, world, x, y, z, 1, .02f);
-                    te.setEnergy(te.getEnergy() - 2);
+                    te.setEnergy(te.getEnergy() - 25);
                     if(is != null)
                     {
                         if(is.hasTagCompound())
