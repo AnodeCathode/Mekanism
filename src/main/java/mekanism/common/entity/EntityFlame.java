@@ -30,7 +30,7 @@ import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 public class EntityFlame extends Entity implements IEntityAdditionalSpawnData
 {
 	public static final int LIFESPAN = 80;
-	public static final int DAMAGE = 10;
+	public static final int DAMAGE = 100;
 	
 	public Entity owner = null;
     public ItemFlamethrower.FlamethrowerMode mode = ItemFlamethrower.FlamethrowerMode.COMBAT;
@@ -169,12 +169,12 @@ public class EntityFlame extends Entity implements IEntityAdditionalSpawnData
             	if(mop.entityHit instanceof EntityItem && mode != ItemFlamethrower.FlamethrowerMode.COMBAT)
             	{
             		if(mop.entityHit.ticksExisted > 100)
-            		{
-            			if(!smeltItem((EntityItem)mop.entityHit))
-            			{
+            		//{
+            		//	if(!smeltItem((EntityItem)mop.entityHit))
+            		//	{
             				burn(mop.entityHit);
-            			}
-            		}
+            		//	}
+            		//}
             	}
             	else {
             		burn(mop.entityHit);
@@ -189,7 +189,7 @@ public class EntityFlame extends Entity implements IEntityAdditionalSpawnData
                 
                 if(general.aestheticWorldDamage && !fluid && (sideCoord.isAirBlock(worldObj) || sideCoord.isReplaceable(worldObj)))
                 {
-                	if(mode != ItemFlamethrower.FlamethrowerMode.COMBAT && !smeltBlock(new Coord4D(mop.blockX, mop.blockY, mop.blockZ, worldObj.provider.dimensionId)))
+                	if(mode != ItemFlamethrower.FlamethrowerMode.COMBAT /*&& !smeltBlock(new Coord4D(mop.blockX, mop.blockY, mop.blockZ, worldObj.provider.dimensionId))*/)
                 	{
                 		if(mode == ItemFlamethrower.FlamethrowerMode.INFERNO && !worldObj.isRemote)
                 		{

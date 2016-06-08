@@ -197,7 +197,7 @@ public class ItemFlamethrower extends ItemMekanism implements IGasItem
     public static enum FlamethrowerMode
     {
         COMBAT("tooltip.flamethrower.combat", EnumColor.YELLOW),
-        HEAT("tooltip.flamethrower.heat", EnumColor.ORANGE),
+        //HEAT("tooltip.flamethrower.heat", EnumColor.ORANGE),
         INFERNO("tooltip.flamethrower.inferno", EnumColor.DARK_RED);
 
         private String unlocalized;
