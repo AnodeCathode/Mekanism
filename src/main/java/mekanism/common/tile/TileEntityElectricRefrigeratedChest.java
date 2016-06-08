@@ -110,7 +110,7 @@ public class TileEntityElectricRefrigeratedChest extends TileEntityElectricBlock
                         continue;
                     else if (is.getItem() instanceof ItemTerraBlock && ((ItemTerraBlock) is.getItem()).onUpdate(is, world, x, y, z))
                         continue;
-                    is = TFC_Core.tickDecay(is, world, x, y, z, 2, 1f);
+                    is = TFC_Core.tickDecay(is, world, x, y, z, 10, 1f);
                     if(is != null)
                         TFC_ItemHeat.handleItemHeat(is);
                     iinv.setInventorySlotContents(i, is);
@@ -118,7 +118,7 @@ public class TileEntityElectricRefrigeratedChest extends TileEntityElectricBlock
                 }
                 else {
                     is = TFC_Core.tickDecay(is, world, x, y, z, 1, .02f);
-                    te.setEnergy(te.getEnergy() - 25);
+                    te.setEnergy(te.getEnergy() - 12.5f);
                     if(is != null)
                     {
                         if(is.hasTagCompound())
