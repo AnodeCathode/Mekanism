@@ -397,7 +397,7 @@ public class Mekanism
 			Character.valueOf('T'), new ItemStack(MekanismBlocks.BasicBlock, 1, 9), Character.valueOf('I'), MekanismUtils.getEmptyFluidTank(FluidTankTier.BASIC)
 		}));
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(MekanismItems.Jetpack.getEmptyItem(), new Object[] {
-				"SCS", "TGT", "T T", Character.valueOf('S'), "ingotBlackSteel", Character.valueOf('C'), MekanismUtils.getControlCircuit(BaseTier.ELITE), Character.valueOf('T'), "plateBlackSteel", Character.valueOf('G'), MekanismUtils.getEmptyGasTank(GasTankTier.BASIC)
+				"SCS", "TGT", "T T", Character.valueOf('S'), "ingotAluminum", Character.valueOf('C'), MekanismUtils.getControlCircuit(BaseTier.ELITE), Character.valueOf('T'), "plateBlackSteel", Character.valueOf('G'), MekanismUtils.getEmptyGasTank(GasTankTier.ADVANCED)
 		}));
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(MekanismItems.Dictionary), new Object[] {
 			"C", "B", Character.valueOf('C'), MekanismUtils.getControlCircuit(BaseTier.BASIC), Character.valueOf('B'), Items.book
