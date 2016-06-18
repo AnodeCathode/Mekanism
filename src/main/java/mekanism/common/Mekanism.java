@@ -418,7 +418,7 @@ public class Mekanism
 				"RCR", "GPG", "RCR", Character.valueOf('C'), MekanismUtils.getControlCircuit(BaseTier.ELITE), Character.valueOf('R'), "alloyElite", Character.valueOf('G'), "ingotDoubleRoseGold", Character.valueOf('P'), new ItemStack(MekanismBlocks.MachineBlock, 1, 9)
 		}));
 		MachineType.ELECTROLYTIC_SEPARATOR.addRecipe(new ShapedMekanismRecipe(new ItemStack(MekanismBlocks.MachineBlock2, 1, 4), new Object[] {
-				"IRI", "ECE", "IRI", Character.valueOf('I'), "ingotSteel", Character.valueOf('R'), "dustRedstone", Character.valueOf('E'), "alloyElite", Character.valueOf('C'), MekanismItems.ElectrolyticCore
+				"ARA", "ECE", "IRI", Character.valueOf('I'), "ingotSteel", Character.valueOf('R'), "dustRedstone", Character.valueOf('E'), "alloyElite", Character.valueOf('C'), MekanismItems.ElectrolyticCore,Character.valueOf('A'), "plateAluminum"
 		}));
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(MekanismItems.ElectrolyticCore), new Object[] {
 				"EPE", "IEG", "EPE", Character.valueOf('E'), MekanismItems.EnrichedAlloy, Character.valueOf('P'), "dustOsmium", Character.valueOf('I'), "dustIron", Character.valueOf('G'), "dustGold"
@@ -527,7 +527,7 @@ public class Mekanism
 			"CRC", "RHR", "CEC", Character.valueOf('C'), "plateSteel", Character.valueOf('R'), "dustRedstone", Character.valueOf('H'), new ItemStack(MekanismBlocks.BasicBlock2, 1, 5), Character.valueOf('E'), MekanismItems.EnergyTablet.getUnchargedItem()
 		}));;
 		MachineType.QUANTUM_ENTANGLOPORTER.addRecipe(new ShapedMekanismRecipe(new ItemStack(MekanismBlocks.MachineBlock3, 1, 0), new Object[] {
-			"OCO", "ATA", "OCO", Character.valueOf('O'), "ingotRefinedObsidian", Character.valueOf('C'), MekanismUtils.getControlCircuit(BaseTier.ULTIMATE), Character.valueOf('A'), "alloyUltimate", Character.valueOf('T'), MekanismItems.TeleportationCore
+			"OCO", "ATA", "OCO", Character.valueOf('O'), "blockRefinedObsidian", Character.valueOf('C'), MekanismUtils.getControlCircuit(BaseTier.ULTIMATE), Character.valueOf('A'), "alloyUltimate", Character.valueOf('T'), MekanismItems.TeleportationCore
 		}));
 		MachineType.FORMULAIC_ASSEMBLICATOR.addRecipe(new ShapedMekanismRecipe(new ItemStack(MekanismBlocks.MachineBlock3, 1, 5), new Object[] {
 			"BTB", "C C", "SIS", Character.valueOf('S'), "plateBlackSteel", Character.valueOf('T'), "craftingTableWood", Character.valueOf('B'), MekanismUtils.getControlCircuit(BaseTier.BASIC), Character.valueOf('I'), new ItemStack(MekanismBlocks.BasicBlock, 1, 8), Character.valueOf('C'), "chestWood"

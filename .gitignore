@@ -24,3 +24,4 @@ gradlew
 *.blend2
 /bin
 /libs
+*.zip
