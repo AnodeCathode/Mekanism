@@ -99,7 +99,7 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
 	public boolean isActive;
 	public boolean clientActive;
 
-	public boolean silkTouch = false;
+	public boolean silkTouch;
 
 	public boolean running;
 
@@ -654,7 +654,7 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
 		isActive = nbtTags.getBoolean("isActive");
 		running = nbtTags.getBoolean("running");
 		delay = nbtTags.getInteger("delay");
-		silkTouch = false;
+		silkTouch = nbtTags.getBoolean("silkTouch");;
 		numPowering = nbtTags.getInteger("numPowering");
 		searcher.state = State.values()[nbtTags.getInteger("state")];
 		controlType = RedstoneControl.values()[nbtTags.getInteger("controlType")];
@@ -753,7 +753,7 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
 			}
 			else if(type == 9)
 			{
-				//silkTouch = !silkTouch;
+				silkTouch = !silkTouch;
 			}
 			else if(type == 10)
 			{
