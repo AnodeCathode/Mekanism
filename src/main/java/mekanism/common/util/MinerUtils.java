@@ -3,6 +3,8 @@ package mekanism.common.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bioxx.tfc.api.TFCBlocks;
+
 import mekanism.api.Coord4D;
 import mekanism.api.util.ListUtils;
 import net.minecraft.block.Block;
@@ -12,7 +14,8 @@ import net.minecraft.world.World;
 
 public final class MinerUtils
 {
-	public static List<Block> specialSilkIDs = ListUtils.asList(Blocks.ice);
+	public static List<Block> specialSilkIDs = ListUtils.asList(Blocks.ice, TFCBlocks.ore, TFCBlocks.ore2, TFCBlocks.ore3);
+	public static List<Block> specialNoSilkIDs = ListUtils.asList(TFCBlocks.ore, TFCBlocks.ore2, TFCBlocks.ore3);
 
 	public static List<ItemStack> getDrops(World world, Coord4D obj, boolean silk)
 	{
@@ -36,8 +39,10 @@ public final class MinerUtils
 		}
 		else {
 			List<ItemStack> ret = new ArrayList<ItemStack>();
+			if(specialNoSilkIDs.contains(block)){
+				return block.getDrops(world, obj.xCoord, obj.yCoord, obj.zCoord, meta, 0);
+			}
 			ret.add(new ItemStack(block, 1, meta));
-
 			if(specialSilkIDs.contains(block) || (block.getDrops(world, obj.xCoord, obj.yCoord, obj.zCoord, meta, 0) != null && block.getDrops(world, obj.xCoord, obj.yCoord, obj.zCoord, meta, 0).size() > 0))
 			{
 				return ret;
