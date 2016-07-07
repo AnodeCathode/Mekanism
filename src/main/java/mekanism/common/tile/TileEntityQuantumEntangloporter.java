@@ -16,8 +16,13 @@ import mekanism.api.transmitters.TransmissionType;
 import mekanism.common.Mekanism;
 import mekanism.common.PacketHandler;
 import mekanism.common.SideData.IOState;
+import mekanism.common.Upgrade;
+import mekanism.common.Upgrade.IUpgradeInfoHandler;
 import mekanism.common.base.ISideConfiguration;
 import mekanism.common.base.ITankManager;
+import mekanism.common.base.IUpgradeTile;
+import mekanism.common.block.BlockMachine.MachineType;
+import mekanism.common.base.IRedstoneControl;
 import mekanism.common.content.entangloporter.InventoryFrequency;
 import mekanism.common.frequency.Frequency;
 import mekanism.common.frequency.FrequencyManager;
@@ -27,6 +32,7 @@ import mekanism.common.security.ISecurityTile;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.component.TileComponentEjector;
 import mekanism.common.tile.component.TileComponentSecurity;
+import mekanism.common.tile.component.TileComponentUpgrade;
 import mekanism.common.util.CableUtils;
 import mekanism.common.util.HeatUtils;
 import mekanism.common.util.InventoryUtils;
@@ -41,7 +47,8 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
-public class TileEntityQuantumEntangloporter extends TileEntityElectricBlock implements ISideConfiguration, ITankManager, IFluidHandler, IFrequencyHandler, IGasHandler, IHeatTransfer, ITubeConnection, IComputerIntegration, ISecurityTile
+
+public class TileEntityQuantumEntangloporter extends TileEntityElectricBlock implements ISideConfiguration, ITankManager, IFluidHandler, IFrequencyHandler, IGasHandler, IHeatTransfer, ITubeConnection, IComputerIntegration, ISecurityTile, IUpgradeTile, IUpgradeInfoHandler, IRedstoneControl 
 {
 	public InventoryFrequency frequency;
 	
@@ -58,10 +65,22 @@ public class TileEntityQuantumEntangloporter extends TileEntityElectricBlock imp
 	public TileComponentEjector ejectorComponent;
 	public TileComponentConfig configComponent;
 	public TileComponentSecurity securityComponent;
+	public TileComponentUpgrade upgradeComponent = new TileComponentUpgrade(this, 4);
+	
+	public int gasTransferLossPercent = 90;
+	public int energyTransferLossPercent = 90;
+	public int fluidTransferLossPercent = 90;
+	
+	public double BASE_ENERGY_USAGE;
+	
+	public double energyPerTick = 1000;	
+	/** This machine's current RedstoneControl type. */
+	public RedstoneControl controlType = RedstoneControl.DISABLED;
+	
 
 	public TileEntityQuantumEntangloporter()
 	{
-		super("QuantumEntangloporter", 0);
+		super("QuantumEntangloporter", MachineType.QUANTUM_ENTANGLOPORTER.baseEnergy);
 		
 		configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.FLUID, TransmissionType.GAS, TransmissionType.ENERGY, TransmissionType.HEAT);
 		
@@ -104,6 +123,10 @@ public class TileEntityQuantumEntangloporter extends TileEntityElectricBlock imp
 			
 			double[] loss = simulateHeat();
 			applyTemperatureChange();
+			if(canOperate() && MekanismUtils.canFunction(this)){
+				operate();		
+			}
+			
 			
 			lastTransferLoss = loss[0];
 			lastEnvironmentLoss = loss[1];
@@ -392,7 +415,7 @@ public class TileEntityQuantumEntangloporter extends TileEntityElectricBlock imp
 	@Override
 	public double getMaxEnergy()
 	{
-		return !hasFrequency() ? 0 : frequency.MAX_ENERGY;
+		return !hasFrequency() ? 0 : InventoryFrequency.MAX_ENERGY;
 	}
 
 	@Override
@@ -405,8 +428,11 @@ public class TileEntityQuantumEntangloporter extends TileEntityElectricBlock imp
 	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain)
 	{
 		if(hasFrequency() && resource.isFluidEqual(frequency.storedFluid.getFluid()))
-		{
-			return frequency.storedFluid.drain(resource.amount, doDrain);
+		{	
+			int returnFluidAmount = resource.amount * fluidTransferLossPercent;
+			Fluid returnStackFluid = resource.getFluid();
+			frequency.storedFluid.drain(resource.amount, doDrain);
+			return new FluidStack(returnStackFluid, returnFluidAmount);
 		}
 		
 		return null;
@@ -417,7 +443,10 @@ public class TileEntityQuantumEntangloporter extends TileEntityElectricBlock imp
 	{
 		if(hasFrequency())
 		{
-			return frequency.storedFluid.drain(maxDrain, doDrain);
+			int returnFluidAmount = maxDrain * fluidTransferLossPercent;
+			Fluid returnStackFluid = frequency.storedFluid.getFluid().getFluid();
+			
+			return new FluidStack(returnStackFluid, returnFluidAmount);
 		}
 		
 		return null;
@@ -474,7 +503,13 @@ public class TileEntityQuantumEntangloporter extends TileEntityElectricBlock imp
 	@Override
 	public GasStack drawGas(ForgeDirection side, int amount, boolean doTransfer)
 	{
-		return !hasFrequency() ? null : frequency.storedGas.draw(amount, doTransfer);
+		if(!hasFrequency()) {
+			int finalamount = frequency.storedGas.draw(amount, doTransfer).amount * gasTransferLossPercent;
+			Gas returnGasStackType = frequency.storedGas.getGasType();
+			frequency.storedGas.draw(amount, doTransfer);
+			return new GasStack(returnGasStackType, finalamount);
+		}
+		return null;
 	}
 
 	@Override
@@ -695,4 +730,95 @@ public class TileEntityQuantumEntangloporter extends TileEntityElectricBlock imp
 				throw new NoSuchMethodException();
 		}
 	}
+
+	@Override
+	public List<String> getInfo(Upgrade upgrade) {
+		return upgrade == Upgrade.SPEED ? upgrade.getExpScaledInfo(this) : upgrade.getMultScaledInfo(this);
+
+	}
+
+	@Override
+	public TileComponentUpgrade getComponent() {
+		return upgradeComponent;
+	}
+	
+	@Override
+	public void recalculateUpgradables(Upgrade upgrade)
+	{
+		super.recalculateUpgradables(upgrade);
+
+		switch(upgrade)
+		{
+		case ENERGY:
+			energyPerTick = MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_USAGE);
+			maxEnergy = MekanismUtils.getMaxEnergy(this, BASE_MAX_ENERGY);
+		default:
+			break;		}
+	}
+	
+	public boolean canOperate()
+	{
+		return frequency != null && frequency.storedEnergy > energyPerTick;
+	}
+	
+	public Coord4D getClosest()
+	{
+		if(frequency != null)
+		{
+			return frequency.getClosestCoords(Coord4D.get(this));
+		}
+		
+		return null;
+	}
+	
+	public void operate()
+	{
+		if(worldObj.isRemote) return;
+
+		Coord4D closestCoords = getClosest();
+		
+		if(closestCoords == null)
+		{
+			return;
+		}
+		setEnergy(getEnergy() - calculateEnergyCost(closestCoords));
+		
+		
+	}
+	
+	public int calculateEnergyCost(Coord4D coords)
+	{
+		Coord4D tileLocation = Coord4D.get(this);
+		int energyCost = 250;
+
+		if(this.worldObj.provider.dimensionId != coords.dimensionId)
+		{
+			energyCost+=2500;
+		}
+
+		int distance = tileLocation.distanceTo(coords);
+		energyCost+=(distance*50) + energyPerTick;
+
+		return energyCost;
+	}
+
+	@Override
+	public RedstoneControl getControlType() {
+		return controlType;
+	}
+
+	@Override
+	public void setControlType(RedstoneControl type) {
+		controlType = type;
+		MekanismUtils.saveChunk(this);
+		
+	}
+
+	@Override
+	public boolean canPulse() {
+		
+		return false;
+	}
+		
+	
 }

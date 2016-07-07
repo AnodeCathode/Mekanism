@@ -125,6 +125,7 @@ public class MekanismConfig
 		public static double gasCentrifugeUsage;
 		public static double heavyWaterElectrolysisUsage;
 		public static double formulaicAssemblicatorUsage;
+		public static double quantumEntangloporterUsage;
 	}
 
 	public static class generators

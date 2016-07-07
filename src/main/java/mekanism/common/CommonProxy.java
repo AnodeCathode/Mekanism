@@ -389,6 +389,7 @@ public class CommonProxy implements IGuiProvider
 		usage.gasCentrifugeUsage = Mekanism.configuration.get("usage", "GasCentrifugeUsage", 100D).getDouble();
 		usage.heavyWaterElectrolysisUsage = Mekanism.configuration.get("usage", "HeavyWaterElectrolysisUsage", 800D).getDouble();
 		usage.formulaicAssemblicatorUsage = Mekanism.configuration.get("usage", "FormulaicAssemblicatorUsage", 100D).getDouble();
+		usage.quantumEntangloporterUsage = Mekanism.configuration.get("usage", "QuantumEntangloporterUsage", 200D).getDouble();
 
 		Tier.loadConfig();
 		
