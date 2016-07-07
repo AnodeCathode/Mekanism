@@ -14,8 +14,8 @@ import net.minecraft.world.World;
 
 public final class MinerUtils
 {
-	public static List<Block> specialSilkIDs = ListUtils.asList(Blocks.ice, TFCBlocks.ore, TFCBlocks.ore2, TFCBlocks.ore3);
-	public static List<Block> specialNoSilkIDs = ListUtils.asList(TFCBlocks.ore, TFCBlocks.ore2, TFCBlocks.ore3);
+	public static List<Block> specialSilkIDs = ListUtils.asList(Blocks.ice);
+	public static List<Block> specialNoSilkIDs = ListUtils.asList(TFCBlocks.ore, TFCBlocks.ore2, TFCBlocks.ore3, TFCBlocks.grass, TFCBlocks.grass2);
 
 	public static List<ItemStack> getDrops(World world, Coord4D obj, boolean silk)
 	{
