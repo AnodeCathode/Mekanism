@@ -266,26 +266,16 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
 
 		if(type == MachineType.PERSONAL_CHEST)
 		{
-			if(!player.isSneaking()){
-				place=false;
-			}
-			else
+			if(!player.isSneaking())
 			{
-				if(getOwner(stack) == null)
+				if(!world.isRemote)
 				{
 					setOwner(stack, player.getCommandSenderName());
 				}
 				
-				if(SecurityUtils.canAccess(player, stack))
-				{
-					InventoryPersonalChest inventory = new InventoryPersonalChest(player);
-					MekanismUtils.openPersonalChestGui((EntityPlayerMP)player, null, inventory, false);
-				}
-				else {
-					SecurityUtils.displayNoAccess(player);
-				}
+				}		
+				place=false;
 			}
-					
 		}
 		
 		if(type == MachineType.DIGITAL_MINER)
