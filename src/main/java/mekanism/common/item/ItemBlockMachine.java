@@ -270,8 +270,21 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
 			{
 				if(!world.isRemote)
 				{
-					setOwner(stack, player.getCommandSenderName());
-				}
+					if(getOwner(stack) == null)
+					{
+						setOwner(stack, player.getCommandSenderName());
+					}
+					
+					if(SecurityUtils.canAccess(player, stack))
+					{
+						InventoryPersonalChest inventory = new InventoryPersonalChest(player);
+						MekanismUtils.openPersonalChestGui((EntityPlayerMP)player, null, inventory, false);
+					}
+					else 
+					{
+						SecurityUtils.displayNoAccess(player);
+					}
+					return false;
 				
 				}		
 				place=false;
