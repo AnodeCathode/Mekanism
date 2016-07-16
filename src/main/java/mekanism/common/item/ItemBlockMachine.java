@@ -253,6 +253,10 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
 		{
 			return false;
 		}
+		if(type == MachineType.PERSONAL_CHEST && !player.isSneaking())
+		{
+			return false;
+		}
 		
 		return super.onItemUse(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
     }
@@ -282,10 +286,14 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
 				{
 					SecurityUtils.displayNoAccess(player);
 				}
-				return false;
+				place=false;
+
 				
 			}
-			place=false;
+			else{
+				place=true;	
+			}
+			
 
 		}
 		
