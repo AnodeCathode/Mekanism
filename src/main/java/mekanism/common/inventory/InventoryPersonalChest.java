@@ -1,11 +1,15 @@
 package mekanism.common.inventory;
 
+import mekanism.api.EnumColor;
+import mekanism.common.Mekanism;
 import mekanism.common.base.ISustainedInventory;
+import mekanism.common.block.BlockMachine.MachineType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.ChatComponentText;
 
 public class InventoryPersonalChest extends InventoryBasic
 {
@@ -104,6 +108,15 @@ public class InventoryPersonalChest extends InventoryBasic
 
 	public ItemStack getStack()
 	{
-		return itemStack != null ? itemStack : entityPlayer.getCurrentEquippedItem();
+		if(itemStack != null) return itemStack;
+		if(MachineType.get(entityPlayer.getCurrentEquippedItem()) == MachineType.PERSONAL_CHEST){
+			return entityPlayer.getCurrentEquippedItem();	
+		}
+		else
+		{
+			Mekanism.logger.error("Unable to write inventory data to Personal Chest.");
+			entityPlayer.addChatMessage(new ChatComponentText(EnumColor.RED + "Unable to write inventory data to Personal Chest. Contact TNFC Support! " + EnumColor.DARK_BLUE + entityPlayer.getCommandSenderName() + EnumColor.RED + "!"));
+			return null;
+		}
 	}
 }
