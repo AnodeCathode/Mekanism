@@ -1,5 +1,7 @@
 package mekanism.generators.common.tile.reactor;
 
+import io.netty.buffer.ByteBuf;
+
 import java.util.ArrayList;
 import java.util.EnumSet;
 
@@ -16,11 +18,11 @@ import mekanism.api.gas.ITubeConnection;
 import mekanism.api.reactor.IReactorBlock;
 import mekanism.common.Mekanism;
 import mekanism.common.network.PacketTileEntity.TileEntityMessage;
-import mekanism.common.tile.TileEntityBoilerValve;
 import mekanism.common.util.CableUtils;
 import mekanism.common.util.HeatUtils;
 import mekanism.common.util.InventoryUtils;
 import mekanism.common.util.LangUtils;
+import mekanism.common.util.MekanismUtils;
 import mekanism.generators.common.item.ItemHohlraum;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -82,7 +84,7 @@ public class TileEntityReactorPort extends TileEntityReactorBlock implements IFl
 		{
 			CableUtils.emit(this);
 			
-			if(fluidEject && getReactor() != null && getReactor().getSteamTank().getFluidAmount() > 0)
+			if(fluidEject && getReactor() != null && getReactor().getSteamTank().getFluid() != null)
 			{
 				IFluidTank tank = getReactor().getSteamTank();
 				
@@ -90,7 +92,7 @@ public class TileEntityReactorPort extends TileEntityReactorBlock implements IFl
 				{
 					TileEntity tile = Coord4D.get(this).getFromSide(side).getTileEntity(worldObj);
 					
-					if(tile instanceof IFluidHandler && !(tile instanceof TileEntityBoilerValve))
+					if(tile instanceof IFluidHandler && !(tile instanceof TileEntityReactorPort))
 					{
 						if(((IFluidHandler)tile).canFill(side.getOpposite(), tank.getFluid().getFluid()))
 						{
@@ -413,6 +415,29 @@ public class TileEntityReactorPort extends TileEntityReactorBlock implements IFl
 		}
 		
 		return false;
+	}
+	
+	@Override
+	public void handlePacketData(ByteBuf dataStream)
+	{
+		super.handlePacketData(dataStream);
+		
+		if(worldObj.isRemote)
+		{
+			fluidEject = dataStream.readBoolean();
+			
+			MekanismUtils.updateBlock(worldObj, xCoord, yCoord, zCoord);
+		}
+	}
+
+	@Override
+	public ArrayList getNetworkedData(ArrayList data)
+	{
+		super.getNetworkedData(data);
+		
+		data.add(fluidEject);
+		
+		return data;
 	}
 
 	@Override

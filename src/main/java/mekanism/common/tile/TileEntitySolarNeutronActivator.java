@@ -3,6 +3,7 @@ package mekanism.common.tile;
 import io.netty.buffer.ByteBuf;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.bioxx.tfc.Core.WeatherManager;
 
@@ -16,17 +17,21 @@ import mekanism.api.gas.GasTransmission;
 import mekanism.api.gas.IGasHandler;
 import mekanism.api.gas.ITubeConnection;
 import mekanism.common.Mekanism;
+import mekanism.common.Upgrade;
+import mekanism.common.Upgrade.IUpgradeInfoHandler;
 import mekanism.common.base.IActiveState;
 import mekanism.common.base.IBoundingBlock;
 import mekanism.common.base.IRedstoneControl;
 import mekanism.common.base.ISustainedData;
 import mekanism.common.base.ITankManager;
+import mekanism.common.base.IUpgradeTile;
 import mekanism.common.network.PacketTileEntity.TileEntityMessage;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.inputs.GasInput;
 import mekanism.common.recipe.machines.SolarNeutronRecipe;
 import mekanism.common.security.ISecurityTile;
 import mekanism.common.tile.component.TileComponentSecurity;
+import mekanism.common.tile.component.TileComponentUpgrade;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -37,13 +42,12 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock implements IRedstoneControl, IBoundingBlock, IGasHandler, ITubeConnection, IActiveState, ISustainedData, ITankManager, ISecurityTile
+public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock implements IRedstoneControl, IBoundingBlock, IGasHandler, ITubeConnection, IActiveState, ISustainedData, ITankManager, ISecurityTile, IUpgradeTile, IUpgradeInfoHandler
 {
 	public GasTank inputTank = new GasTank(MAX_GAS);
 	public GasTank outputTank = new GasTank(MAX_GAS);
 	
 	public static final int MAX_GAS = 10000;
-	public static final int TICKS_REQUIRED = 5;
 	
 	public int updateDelay;
 	
@@ -53,19 +57,19 @@ public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock im
 	
 	public int gasOutput = 256;
 	
-	public int recipeTicks = 0;
-	
 	public SolarNeutronRecipe cachedRecipe;
 	
 	/** This machine's current RedstoneControl type. */
 	public RedstoneControl controlType = RedstoneControl.DISABLED;
 	
+	public TileComponentUpgrade upgradeComponent = new TileComponentUpgrade(this, 3);
 	public TileComponentSecurity securityComponent = new TileComponentSecurity(this);
 	
 	public TileEntitySolarNeutronActivator()
 	{
 		super("SolarNeutronActivator");
-		inventory = new ItemStack[3];
+		upgradeComponent.setSupported(Upgrade.ENERGY, false);
+		inventory = new ItemStack[4];
 	}
 
 	@Override
@@ -112,18 +116,10 @@ public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock im
 			{
 				setActive(true);
 				
-				if(recipeTicks == TICKS_REQUIRED)
-				{
-					operate(recipe);
-					recipeTicks = 0;
-				}
-				else {
-					recipeTicks++;
-				}
+				int operations = operate(recipe);
 			}
 			else {
 				setActive(false);
-				recipeTicks = 0;
 			}
 
 			if(outputTank.getGas() != null)
@@ -141,6 +137,14 @@ public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock im
 				}
 			}
 		}
+	}
+	
+	public int getUpgradedUsage()
+	{
+		int possibleProcess = (int)Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED));
+		possibleProcess = Math.min(Math.min(inputTank.getStored(), outputTank.getNeeded()), possibleProcess);
+		
+		return possibleProcess;
 	}
 	
 	public boolean isDesert()
@@ -170,9 +174,13 @@ public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock im
 		return recipe != null && recipe.canOperate(inputTank, outputTank);
 	}
 
-	public void operate(SolarNeutronRecipe recipe)
+	public int operate(SolarNeutronRecipe recipe)
 	{
-		recipe.operate(inputTank, outputTank);
+		int operations = getUpgradedUsage();
+		
+		recipe.operate(inputTank, outputTank, operations);
+		
+		return operations;
 	}
 	
 	@Override
@@ -183,7 +191,6 @@ public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock im
 		if(worldObj.isRemote)
 		{
 			isActive = dataStream.readBoolean();
-			recipeTicks = dataStream.readInt();
 			controlType = RedstoneControl.values()[dataStream.readInt()];
 	
 			if(dataStream.readBoolean())
@@ -212,7 +219,6 @@ public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock im
 		super.getNetworkedData(data);
 
 		data.add(isActive);
-		data.add(recipeTicks);
 		data.add(controlType.ordinal());
 
 		if(inputTank.getGas() != null)
@@ -244,7 +250,6 @@ public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock im
 		super.readFromNBT(nbtTags);
 
 		isActive = nbtTags.getBoolean("isActive");
-		recipeTicks = nbtTags.getInteger("recipeTicks");
 		controlType = RedstoneControl.values()[nbtTags.getInteger("controlType")];
 
 		inputTank.read(nbtTags.getCompoundTag("inputTank"));
@@ -257,7 +262,6 @@ public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock im
 		super.writeToNBT(nbtTags);
 
 		nbtTags.setBoolean("isActive", isActive);
-		nbtTags.setInteger("recipeTicks", recipeTicks);
 		nbtTags.setInteger("controlType", controlType.ordinal());
 		
 		nbtTags.setTag("inputTank", inputTank.write(new NBTTagCompound()));
@@ -417,6 +421,18 @@ public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock im
 	public TileComponentSecurity getSecurity()
 	{
 		return securityComponent;
+	}
+	
+	@Override
+	public TileComponentUpgrade getComponent() 
+	{
+		return upgradeComponent;
+	}
+	
+	@Override
+	public List<String> getInfo(Upgrade upgrade) 
+	{
+		return upgrade == Upgrade.SPEED ? upgrade.getExpScaledInfo(this) : upgrade.getMultScaledInfo(this);
 	}
 	
 	@Override
