@@ -792,7 +792,7 @@ public class Mekanism
 				" P ", "POP", " P ", Character.valueOf('P'), new ItemStack(MekanismBlocks.PlasticBlock, 1, i), Character.valueOf('O'), "dustOsmium"
 			}));
 			CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(MekanismBlocks.RoadPlasticBlock, 3, i), new Object[] {
-				"SSS", "PPP", "SSS", Character.valueOf('S'), Blocks.sand, Character.valueOf('P'), new ItemStack(MekanismBlocks.SlickPlasticBlock, 1, i)
+				"SSS", "PPP", "SSS", Character.valueOf('S'), "blockSand", Character.valueOf('P'), new ItemStack(MekanismBlocks.SlickPlasticBlock, 1, i)
 			}));
         }
 	
