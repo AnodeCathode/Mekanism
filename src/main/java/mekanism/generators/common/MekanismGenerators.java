@@ -14,6 +14,7 @@ import mekanism.common.Mekanism;
 import mekanism.common.MekanismBlocks;
 import mekanism.common.MekanismItems;
 import mekanism.common.Tier.BaseTier;
+import mekanism.common.Tier.EnergyCubeTier;
 import mekanism.common.Tier.GasTankTier;
 import mekanism.common.Version;
 import mekanism.common.base.IModule;
@@ -114,48 +115,64 @@ public class MekanismGenerators implements IModule
 	
 	public void addRecipes()
 	{
+		//Heat Generator
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(GeneratorsBlocks.Generator, 1, 0), new Object[] {
 			"III", "WOW", "CFC", Character.valueOf('I'), "ingotIron", Character.valueOf('C'), "ingotCopper", Character.valueOf('O'), "ingotOsmium", Character.valueOf('F'), Blocks.furnace, Character.valueOf('W'), "plankWood"
 		}));
+		//Basic solar
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(GeneratorsBlocks.Generator, 1, 1), new Object[] {
-			"SSS", "AIA", "PEP", Character.valueOf('S'), GeneratorsItems.SolarPanel, Character.valueOf('A'), MekanismItems.EnrichedAlloy, Character.valueOf('I'), "ingotIron", Character.valueOf('P'), "dustOsmium", Character.valueOf('E'), MekanismItems.EnergyTablet.getUnchargedItem()
+			"SSS", "AIH", "PEP", Character.valueOf('S'), GeneratorsItems.SolarPanel, Character.valueOf('A'), "craftingFlawlessPlus", Character.valueOf('I'), "ingotBlackSteel", Character.valueOf('P'), "plateBlackSteel", Character.valueOf('E'), MekanismItems.EnergyTablet.getUnchargedItem(), Character.valueOf('H'), "craftingToolMediumHammer"
 		}));
+		// Adv Solar
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(GeneratorsBlocks.Generator, 1, 5), new Object[] {
-			"SES", "SES", "III", Character.valueOf('S'), new ItemStack(GeneratorsBlocks.Generator, 1, 1), Character.valueOf('E'), MekanismItems.EnrichedAlloy, Character.valueOf('I'), "ingotIron"
+				"SES", "SBS", "ICI", Character.valueOf('S'), new ItemStack(GeneratorsBlocks.Generator, 1, 1), Character.valueOf('E'), "alloyUltimate", Character.valueOf('I'), "ingotBlackSteel", Character.valueOf('B'), "ingotBlueSteel", Character.valueOf('C'), MekanismUtils.getEnergyCube(EnergyCubeTier.ADVANCED)
 		}));
+		//Bio generator
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(GeneratorsBlocks.Generator, 1, 4), new Object[] {
 			"RER", "BCB", "NEN", Character.valueOf('R'), "dustRedstone", Character.valueOf('E'), MekanismItems.EnrichedAlloy, Character.valueOf('B'), MekanismItems.BioFuel, Character.valueOf('C'), MekanismUtils.getControlCircuit(BaseTier.BASIC), Character.valueOf('N'), "ingotIron"
 		}));
+		//Gas Generator
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(GeneratorsBlocks.Generator, 1, 3), new Object[] {
-			"PEP", "ICI", "PEP", Character.valueOf('P'), "ingotOsmium", Character.valueOf('E'), MekanismItems.EnrichedAlloy, Character.valueOf('I'), new ItemStack(MekanismBlocks.BasicBlock, 1, 8), Character.valueOf('C'), MekanismItems.ElectrolyticCore
+			"PEP", "ICI", "BEB", Character.valueOf('P'), "ingotOsmium", Character.valueOf('E'), MekanismItems.EnrichedAlloy, Character.valueOf('I'), new ItemStack(MekanismBlocks.BasicBlock, 1, 8), Character.valueOf('C'), MekanismItems.ElectrolyticCore, Character.valueOf('B'), "ingotBlackSteel"
 		}));
+		//Solar panel ingredient
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(GeneratorsItems.SolarPanel), new Object[] {
 			"GGG", "RAR", "PPP", Character.valueOf('G'), "paneGlass", Character.valueOf('R'), "dustRedstone", Character.valueOf('A'), MekanismItems.EnrichedAlloy, Character.valueOf('P'), "ingotOsmium"
 		}));
+		//Wind generator
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(GeneratorsBlocks.Generator, 1, 6), new Object[] {
-			" O ", "OAO", "ECE", Character.valueOf('O'), "ingotOsmium", Character.valueOf('A'), MekanismItems.EnrichedAlloy, Character.valueOf('E'), MekanismItems.EnergyTablet.getUnchargedItem(), Character.valueOf('C'), MekanismUtils.getControlCircuit(BaseTier.BASIC)
+				"GOG", "OAO", "ECE", Character.valueOf('O'), "ingotSteel", Character.valueOf('A'), MekanismUtils.getControlCircuit(BaseTier.ELITE), Character.valueOf('E'), "plateBlackSteel", Character.valueOf('C'), MekanismUtils.getEnergyCube(EnergyCubeTier.ADVANCED), Character.valueOf('G'), "craftingFlawlessPlus"
 		}));
+		
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(GeneratorsItems.TurbineBlade), new Object[] {
 			" S ", "SAS", " S ", Character.valueOf('S'), "plateDoubleSteel", Character.valueOf('A'), MekanismItems.EnrichedAlloy
 		}));
+		//Turbine rotor
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(GeneratorsBlocks.Generator, 1, 7), new Object[] {
 			"SAS", "SAS", "SAS", Character.valueOf('S'), "plateSteel", Character.valueOf('A'), MekanismItems.ReinforcedAlloy
 		}));
+		//Rotational Complex
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(GeneratorsBlocks.Generator, 1, 8), new Object[] {
 			"SAS", "CBC", "SAS", Character.valueOf('B'), new ItemStack(MekanismBlocks.BasicBlock, 1, 8), Character.valueOf('S'), "plateBlackSteel", Character.valueOf('A'), MekanismItems.EnrichedAlloy, Character.valueOf('C'), MekanismUtils.getControlCircuit(BaseTier.ADVANCED)
 		}));
+		//Electromagnetic Coil
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(GeneratorsBlocks.Generator, 1, 9), new Object[] {
 			"SGS", "GEG", "SGS", Character.valueOf('S'), "plateBlackSteel", Character.valueOf('G'), "plateGold", Character.valueOf('E'), MekanismItems.EnergyTablet.getUnchargedItem()
 		}));
+
+		//Turbine casing
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(GeneratorsBlocks.Generator, 4, 10), new Object[] {
 			" S ", "HO ", " S ", Character.valueOf('S'), "plateBlackSteel", Character.valueOf('H'), "craftingToolMediumHammer", Character.valueOf('O'), "ingotOsmium"
 		}));
+		//Turbine valve
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(GeneratorsBlocks.Generator, 2, 11), new Object[] {
 			" I ", "ICI", " I ", Character.valueOf('I'), new ItemStack(GeneratorsBlocks.Generator, 1, 10), Character.valueOf('C'), MekanismUtils.getControlCircuit(BaseTier.ELITE)
 		}));
+		//Turbine vent
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(GeneratorsBlocks.Generator, 2, 12), new Object[] {
 			"FIF", "IFI", "FIF", Character.valueOf('I'), new ItemStack(GeneratorsBlocks.Generator, 1, 10), Character.valueOf('F'), Blocks.iron_bars
 		}));
+		//Saturating condensor
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(GeneratorsBlocks.Generator, 1, 13), new Object[] {
 			"STS", "TBT", "STS", Character.valueOf('S'), "ingotSteel", Character.valueOf('T'), "ingotTin", Character.valueOf('B'), Items.bucket
 		}));

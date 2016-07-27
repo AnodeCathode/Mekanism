@@ -223,7 +223,8 @@ public class Mekanism
 	public static Set<String> flamethrowerActive = new HashSet<String>();
 	
 	public static Set<Coord4D> activeVibrators = new HashSet<Coord4D>();
-
+	
+	
 	/**
 	 * Adds all in-game crafting, smelting and machine recipes.
 	 */
@@ -302,7 +303,7 @@ public class Mekanism
 			"RCR", "SIS", "RCR", Character.valueOf('S'), Blocks.cobblestone, Character.valueOf('C'), MekanismUtils.getControlCircuit(BaseTier.ELITE), Character.valueOf('R'), "alloyElite", Character.valueOf('I'), new ItemStack(MekanismBlocks.BasicBlock, 1, 8)
 		}));
 		MachineType.CRUSHER.addRecipe(new ShapedMekanismRecipe(new ItemStack(MekanismBlocks.MachineBlock, 1, 3), new Object[] {
-				"RCR", "LIL", "TXT", Character.valueOf('R'), "dustRedstone", Character.valueOf('L'), new ItemStack(TFCItems.blackSteelHammer, 1, 0), Character.valueOf('C'), MekanismUtils.getControlCircuit(BaseTier.BASIC), Character.valueOf('I'), new ItemStack(MekanismBlocks.BasicBlock, 1, 8), Character.valueOf('T'), "plateBlackSteel", Character.valueOf('X'), "craftingPiston"
+				"RCR", "LIL", "TXT", Character.valueOf('R'), "dustRedstone", Character.valueOf('L'), new ItemStack(TFCItems.blackSteelHammerHead, 1, 0), Character.valueOf('C'), MekanismUtils.getControlCircuit(BaseTier.BASIC), Character.valueOf('I'), new ItemStack(MekanismBlocks.BasicBlock, 1, 8), Character.valueOf('T'), "plateBlackSteel", Character.valueOf('X'), "craftingPiston"
 		}));
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(MekanismItems.SpeedUpgrade), new Object[]{
 				" G ", "ADA", " G ", Character.valueOf('G'), "blockGlass", Character.valueOf('A'), MekanismItems.EnrichedAlloy, Character.valueOf('D'), "dustOsmium"
@@ -397,7 +398,7 @@ public class Mekanism
 			Character.valueOf('T'), new ItemStack(MekanismBlocks.BasicBlock, 1, 9), Character.valueOf('I'), MekanismUtils.getEmptyFluidTank(FluidTankTier.BASIC)
 		}));
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(MekanismItems.Jetpack.getEmptyItem(), new Object[] {
-				"SCS", "TGT", "T T", Character.valueOf('S'), "ingotAluminum", Character.valueOf('C'), MekanismUtils.getControlCircuit(BaseTier.ELITE), Character.valueOf('T'), "plateBlackSteel", Character.valueOf('G'), MekanismUtils.getEmptyGasTank(GasTankTier.ADVANCED)
+				"SCS", "TGT", "TFT", Character.valueOf('S'), "ingotAluminum", Character.valueOf('C'), MekanismUtils.getControlCircuit(BaseTier.ELITE), Character.valueOf('T'), "plateBlackSteel", Character.valueOf('G'), MekanismUtils.getEmptyGasTank(GasTankTier.ADVANCED), Character.valueOf('F'),"craftingFlawlessPlus"
 		}));
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(MekanismItems.Dictionary), new Object[] {
 			"C", "B", Character.valueOf('C'), MekanismUtils.getControlCircuit(BaseTier.BASIC), Character.valueOf('B'), Items.book
@@ -481,8 +482,9 @@ public class Mekanism
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(MekanismItems.GaugeDropper.getEmptyItem(), new Object[] {
 			" O ", "G G", "GGG", Character.valueOf('O'), "ingotOsmium", Character.valueOf('G'), "paneGlass"
 		}));
+		
 		MachineType.SOLAR_NEUTRON_ACTIVATOR.addRecipe(new ShapedMekanismRecipe(new ItemStack(MekanismBlocks.MachineBlock3, 1, 1), new Object[] {
-				"APA", "CSC", "BBB", Character.valueOf('A'), "alloyElite", Character.valueOf('S'), new ItemStack(MekanismBlocks.BasicBlock, 1, 8), Character.valueOf('P'), new ItemStack(MekanismItems.Polyethene, 1, 2), Character.valueOf('B'), "ingotAnyBronze", Character.valueOf('C'), MekanismUtils.getControlCircuit(BaseTier.ELITE)
+				"APA", "CSC", "BBB", Character.valueOf('A'), "alloyElite", Character.valueOf('S'), new ItemStack(MekanismBlocks.BasicBlock, 1, 8), Character.valueOf('P'), new ItemStack(MekanismItems.Polyethene, 1, 2), Character.valueOf('B'), "craftingFlawlessPlus", Character.valueOf('C'), MekanismUtils.getControlCircuit(BaseTier.ELITE)
 		}));
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(MekanismBlocks.BasicBlock2, 4, 1), new Object[] {
 			" S ", "SES", " S ", Character.valueOf('S'), "ingotSteel", Character.valueOf('E'), MekanismItems.EnergyTablet.getUnchargedItem()
