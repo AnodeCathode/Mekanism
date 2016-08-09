@@ -368,6 +368,7 @@ public class Mekanism
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(MekanismBlocks.BasicBlock, 2, 9), new Object[] {
 			" I ", "HC ", " I ", Character.valueOf('I'), "plateSteel", Character.valueOf('H'), "craftingToolHardHammer", Character.valueOf('C'), "stoneCobble"
 		}));
+
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(MekanismBlocks.BasicBlock, 2, 10), new Object[] {
 			" I ", "HG ", " I ", Character.valueOf('I'), new ItemStack(MekanismBlocks.BasicBlock, 1, 9), Character.valueOf('H'), "craftingToolHardHammer", Character.valueOf('G'), "blockGlass"
 		}));
