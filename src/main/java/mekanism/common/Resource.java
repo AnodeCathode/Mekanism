@@ -8,7 +8,13 @@ public enum Resource
 	COPPER("Copper"),
 	TIN("Tin"),
 	SILVER("Silver"),
-	LEAD("Lead");
+	LEAD("Lead"),
+	BISMUTH("Bismuth"),
+	NICKEL("Nickel"),
+	PLATINUM("Platinum"),
+	ZINC("Zinc"),
+	ALUMINUM("Aluminum"),
+	TUNGSTEN("Tungsten");
 
 	private String name;
 
