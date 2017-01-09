@@ -56,7 +56,7 @@ dependencies {
     compile "codechicken:CodeChickenCore:${config.minecraft_version}-${config.CCC_version}:dev"
 }
 
-version = "${config.minecraft_version}-${config.mod_version}." + (System.env.BUILD_NUMBER ?: "tnfc")
+version = "${config.minecraft_version}-${config.mod_version}." + (System.env.BUILD_NUMBER ?: "tnfc.v3")
 archivesBaseName = "MekanismAll"
 libsDirName = "../output"
 distsDirName = "../output"
@@ -135,6 +135,9 @@ task releaseJars(type: Copy) {
     from toolsJar
     from generatorsJar
     from MDKZip
+    rename '-(.*)jar', '.jar'
+    rename '-(.*)zip', '.zip'
+    into '.'
 }
 
 task fullBuild(type: Delete) {
