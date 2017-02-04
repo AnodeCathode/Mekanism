@@ -324,7 +324,7 @@ public class Mekanism
 				"AEA", "ACA", "BOD", Character.valueOf('A'), MekanismItems.EnrichedAlloy, Character.valueOf('E'), MekanismItems.EnergyTablet.getUnchargedItem(), Character.valueOf('C'), MekanismItems.AtomicAlloy, Character.valueOf('O'), "ingotRefinedObsidian", Character.valueOf('B'), "plateDoubleBlueSteel",Character.valueOf('D'), "plateDoubleRedSteel"
 		}));
 		MachineType.METALLURGIC_INFUSER.addRecipe(new ShapedMekanismRecipe(new ItemStack(MekanismBlocks.MachineBlock, 1, 8), new Object[] {
-				"IFI", "ROR", "IFI", Character.valueOf('I'), "ingotSteel", Character.valueOf('F'), TFCBlocks.blastFurnace, Character.valueOf('R'), "dustRedstone", Character.valueOf('O'), "ingotOsmium"
+				"IFI", "ROR", "BFB", Character.valueOf('I'), "ingotSteel", Character.valueOf('F'), TFCBlocks.blastFurnace, Character.valueOf('R'), "dustRedstone", Character.valueOf('O'), "ingotOsmium", Character.valueOf('B'), "plateBlackSteel"
 		}));
 		CraftingManager.getInstance().getRecipeList().add(new ShapedMekanismRecipe(new ItemStack(MekanismItems.TeleportationCore), new Object[] {
 				"LAM", "GDG", "MAL", Character.valueOf('L'), "plateBlueSteel", Character.valueOf('A'), MekanismItems.AtomicAlloy, Character.valueOf('G'), "plateBlackSteel", Character.valueOf('D'), "gemFlawlessDiamond", Character.valueOf('M'), "plateRedSteel"
